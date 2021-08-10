@@ -1,0 +1,188 @@
+﻿<style type="text/css">
+img{border: none;}
+body{font-size: 13pt;background:url(./01.png);margin: 0 auto; text-align: center;max-width:500px;width:100%;}
+img{max-width:100%;}
+a{text-decoration: none;color: #006400;}
+a:hover {color: #DE0000;text-decoration: underline}
+a:visited {color: #66CC00F;text-decoration: underline}
+font.z {color: #FF0000;}
+
+form  {margin: 0px;display: inline;}
+input,textarea,select{
+border: 1px solid #53FF53;
+border-radius: 15px;
+padding:0px;
+background:url(./03.png) no-repeat right;
+color: #FF5151;
+ -webkit-box-shadow: 1px 1px 1px;  
+  -moz-box-shadow: 1px 1px 1px; 
+  box-shadow: 1px 1px 1px;   
+
+}
+textarea{width:100%;}
+
+
+div{
+padding:5px;
+border: none;
+background-color:#FFFFFF;
+color: #000000; 
+margin: auto; 
+text-align:left;
+word-break:break-all;
+word-wrap:break-word;
+}
+
+span.right{
+float:right;
+padding-right:3px;
+padding-top:0px;
+}
+
+div.line1{
+padding:5px;
+border-radius:15px;
+text-align:left;
+background:#FFFFFF;
+color:#000000;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #99ee33;
+border-bottom:1px solid #99CC33;
+border-right:none;
+line-height:auto;
+font-weight: bold;
+background:url(./03.png) no-repeat right;
+}
+
+div.line2{
+padding:5px;
+border-radius:15px;
+text-align:left;
+/*background:#E0E0E0;*/
+/*color:#333;*/
+background:FCFCFC;
+color:#000000;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #99ee33;
+border-bottom:1px solid #99CC33;
+border-right:none;
+line-height:auto;
+background:url(./css/03.png) no-repeat right;
+}
+
+div.content,div.showpage,div.title{
+padding:5px;
+border-radius: 15px;
+text-align:left;
+background:#FFFFFF;
+color:#333;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #99ee33;
+border-bottom:1px solid #99CC33;
+border-right:none;
+line-height:auto;
+
+}
+div.showpage a,div.line1 a,div.line2 a,div.content a{#006400;}
+
+div.tip{
+padding:5px;
+border-radius:15px;
+text-align:left;
+background:#FFFFFF;
+color:#000000;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #FF0000;
+border-bottom:1px solid #FF0000;
+border-right:none;
+line-height:auto;
+font-weight: bold;
+background:url(./03.png) no-repeat right;
+}
+
+.logo{
+padding:5px;
+border-radius: 15px;
+text-align:left;
+background:url(./03.png) no-repeat right;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #99ee33;
+border-bottom:1px solid #99CC33;
+border-right:none;
+line-height:auto;
+}
+.logo a{#006400;}
+.logo img{float:center;}
+
+div.subtitle,div.title{
+padding:5px;
+border-radius: 15px;
+text-align:left;
+background:#f9f9f9;
+color:#333;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #99ee33;
+border-bottom:1px solid #99CC33;
+border-right:none;
+line-height:auto;
+background:url(./02.png) no-repeat right;
+}
+
+.nexttitle {
+padding:5px;
+border-radius: 15px;
+text-align:left;
+background:#FFFFFF;
+color:#333;
+margin:0;
+margin-bottom:3px;
+border-top:1px solid #99ee33;
+border-bottom:1px solid #99CC33;
+border-right:none;
+line-height:auto;
+background:url(./03.png) no-repeat right;
+}
+.nexttitle a { padding-left: 60px; line-height: 30px; position: relative; height: 30px; overflow: hidden; display: block; }
+.nexttitle br { display: none; }
+#nextgo, #nextpre { width: 50px; position: absolute; top: 3px; bottom: 0px; left: 0px; height: 24px; }
+#nextgo { background-color: #12B1CF; ; }
+#nextpre { background-color: #68D115; }
+#nextgo:before { content: "上篇"; }
+#nextpre:before { content: "下篇"; }
+#nextgo:before, #nextpre:before { color: #FFFFFF; line-height: 24px; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; text-align: center; }
+#nextgo:after { content: ''; display: block; position: absolute; width: 0; height: 0; border: 4px solid transparent; border-left: 4px solid #12B1CF; top: 7px; right: -8px; }
+#nextpre:after { content: ''; display: block; position: absolute; width: 0; height: 0; border: 4px solid transparent; border-left: 4px solid #68D115; top: 7px; right: -8px; }
+
+.youlian a{
+float:left;width:20%;
+height:27px;
+line-height:27px;
+text-align:center;
+display:block;
+border:1px solid #CCC;
+font-size:14px;
+font-weight:400;
+border-radius: 25px 0 25px 0;
+}
+.youlian{
+background:url(./03.png) no-repeat right;
+width:99%;
+display:inline-block;
+margin-left:1%;
+margin-top:3px;
+margin-bottom:3px;
+}
+.youlian a:nth-child(2n){
+background:#BBFFBB;
+border-radius: 0 25px 0 25px;
+filter:alpha(opacity=70); 
+-moz-opacity:0.7; 
+opacity:0.7;
+}
+</style>

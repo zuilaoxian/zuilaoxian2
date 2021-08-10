@@ -1,0 +1,16 @@
+{extend name="../template/base.html"" /}
+{block name="title"}{$view.title}{/block}
+{block name="type"}
+	{$view.type}
+{/block}
+{block name="search"}
+{/block}
+{block name="main"}
+	{$pages->render()}
+	<div class="content">
+		{$view.content}
+	</div>
+	{$pages->render()}
+{/block}
+{block name="other"}{/block}
+{block name="footer"}{/block}

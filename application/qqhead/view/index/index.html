@@ -1,0 +1,40 @@
+{extend name="../template/base.html""/}
+{block name="title"}qq头像昵称获取{/block}
+{block name="main"}
+	<div class="input-group">
+		<label for="name">输入QQ号码，如：<a id="test_data">123456789</a></label>
+	</div>
+	<br/>
+	<div class="input-group">
+		<span class="input-group-addon"><span class="glyphicon glyphicon-magnet"></span></span>
+		<input id="input_data" type="text" class="form-control" placeholder="">
+		<span class="input-group-btn" id="btnr"><button id="trash" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span></button></span>
+	</div>
+	<br/>
+	<button id="qqhead" class="btn btn-primary btn-block" data-loading-text="Loading..." data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-hand-up"></span> Get √
+	</button>
+	<script>
+	$(function () {
+		$("button#qqhead").click(function(){
+			$.ajax({
+			url:'/qqhead/'+$("#input_data").val(),
+			type:'get',
+			timeout:'15000',
+			async:true,
+			dataType:'json',
+				success:function(data){
+				console.log(data.code)
+					if (!data.code){
+						$('#myModalLabel').html(data.title)
+						$('.modal-body').html(data.html)
+					}else{
+						$('#myModalLabel').html('无法获取')
+						$('.modal-body').html('无法获取')
+						//layer.msg('无法获取',{time: 1500,anim:6})
+					}
+				}
+			})
+		})
+	})
+	</script>
+{/block}

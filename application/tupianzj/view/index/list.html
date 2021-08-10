@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{$view.name}</title>
+{include file="../template/header.html" /}
+<div class="container container-small">
+	<div class="list list-group-item">
+		<ul class="breadcrumb">
+			{volist name='list' id='vo' empty="暂时没有数据"}
+				<li> <a href="/tupianzj/list/{$vo.type}">{if condition="($vo.type == $view.type)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
+			{/volist}
+		</ul>
+	</div>
+	<div class="content">
+		{volist name='articles' id='vo' empty="暂时没有数据"}
+		<div class="media">
+			<div class="media-left">
+				<img src="{$vo.img}" class="media-object" style="width:130px">
+			</div>
+			<div class="media-body media-middle">
+				<a href="/tupianzj/view/{$vo.id|base64_encode}">
+					<h4 class="media-heading">{$vo.title}</h4>
+				</a>
+			</div>
+		</div>
+		{/volist}
+	</div>
+	{$plistpage}
+{include file="../template/foot.html" /}

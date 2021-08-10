@@ -1,0 +1,81 @@
+{extend name="../template/base.html""/}
+{block name="title"}历史上的 {$view.0}-{$view.1}{/block}
+{block name="type"}{/block}
+{block name="search"}
+	<div class="list list-group-item">
+		<a id="ydate" class="btn btn-default" href="/lssdjt/{$view.2}/{$view.3}" title="历史上的{$view.2}月{$view.3}日">前一天</a>
+		<button id="laydate" class="btn btn-default">{$view.6}-{$view.0}-{$view.1}</button>
+		<a id="tdate" class="btn btn-default" href="/lssdjt/{$view.4}/{$view.5}" title="历史上的{$view.4}月{$view.5}日">后一天</a>
+	</div>
+	<div class="content list-group-item">
+		{volist name='list' id='vo' empty='暂时没有数据'}
+		  <div class="media">
+			<div class="media-left">
+				<img src="{$vo.img??'/index/image/noimage.jpeg'}" class="media-object" style="width:120px">
+			</div>
+			<div class="media-body media-middle">
+			  <a href="/lssdjt/view/{$vo.id}" id="{$vo.id}" title="{$vo.title}">
+				<h4 class="media-heading">{$vo.y}年:{$vo.title}</h4>
+			  </a>
+			  <p>({$vo.title})</p>
+			</div>
+		  </div>
+		{/volist}
+	</div>
+{/block}
+{block name="main"}
+		{volist name='list' id='vo' empty='暂时没有数据'}
+		  <div class="media">
+			<div class="media-left">
+				<img src="{$vo.img??'/index/image/noimage.jpeg'}" class="media-object" style="width:120px">
+			</div>
+			<div class="media-body media-middle">
+			  <a href="/lssdjt/view/{$vo.id}" id="{$vo.id}" title="{$vo.title}">
+				<h4 class="media-heading">{$vo.y}年:{$vo.title}</h4>
+			  </a>
+			  <p>({$vo.title})</p>
+			</div>
+		  </div>
+		{/volist}
+{/block}
+{block name="other"}
+	<script>
+	;!function(){
+		$('.media-body a').click(function (event) {
+		event.preventDefault();
+		layer.msg('加载中，请稍后',{time: 1200,anim:6})
+		id=$(this).attr('id');
+		$.ajax({
+			url:'/lssdjt/view/'+id,
+			type:'get',
+			timeout:'15000',
+			async:true,
+			dataType:'json',
+				success:function(data){
+					layer.closeAll();
+					if (data.Id){
+						$('#myModalLabel').html(data.标题)
+						$('.modal-body').html(data.内容)
+						$('#myModal').modal('show')
+					}else{
+						layer.msg('错误',{time: 1200,anim:6})
+					}
+				}
+			})
+		})
+		
+	}();
+	laydate.render({
+	  elem: '#laydate' //指定元素
+	  ,type: 'date'
+	  ,btns: ['now','confirm']
+	  ,done: function(value, date){
+		if (date.month){
+			location.href = '/lssdjt/'+date.month+'/'+date.date
+		}
+		//alert('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
+	  }
+	});
+	</script>
+{/block}
+{block name="footer"}{/block}

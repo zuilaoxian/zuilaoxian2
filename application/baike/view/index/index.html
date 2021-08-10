@@ -1,0 +1,72 @@
+{extend name="../template/base.html"" /}
+{block name="title"}{$view.title}{/block}
+{block name="type"}
+	<div class="list list-group-item">
+		<ul class="breadcrumb">
+			{volist name='list' id='vo' empty="暂时没有数据"}
+				<li> <a href="/{$view.path}/{$vo.type}">{$vo.kind}</a></li>
+			{/volist}
+		</ul>
+		<form action="/{$view.path}/search" method="get" class="bs-example bs-example-form" role="form">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" name="keyword" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								搜!!
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+{/block}
+{block name="search"}
+	<style>
+	#daan{
+		border: solid 1px #eee;
+		padding: 3px 5px;
+		margin: 1px;
+		border-radius: 3px;
+		display:inline-block;
+	}
+	</style>
+{/block}
+{block name="main"}
+	{$articles->render()}
+	<div class="content list-group-item">
+		{volist name='articles' id='vo' empty='暂时没有数据'}
+		<h4>{$vo.tmxh}.{$vo.tmnr}</h4>
+		<p id="{$vo.tmxh}">
+			<span id="daan">1.{$vo.tmda1}</span>
+			<span id="daan">2.{$vo.tmda2}</span>
+			{$vo.tmda3?'<span id="daan">3.'.$vo.tmda3.'</span>':''}
+			{$vo.tmda4?'<span id="daan">4.'.$vo.tmda4.'</span>':''}
+			{$vo.tmda5?'<span id="daan">5.'.$vo.tmda5.'</span>':''}
+			{$vo.tmda6?'<span id="daan">6.'.$vo.tmda6.'</span>':''}
+		</p>
+		题目类型：{$vo.kind} <button id="{$vo.tmxh}" class="btn btn-default">答案</button>
+		<span style="display:none">
+			<font color="red">{$vo.tmda}</font>
+		</span>
+		{/volist}
+	</div>
+	{$articles->render()}
+{/block}
+{block name="other"}
+ <script>
+;!function(){
+	$("button").click(function (){
+		//$(this).next().fadeIn();
+		var daan=$(this).next().text().trim().split('');
+		var id=$(this).prev().attr("id");
+		for (i=0;i<daan.length;i++){
+			if (daan[i]==1) $("#"+id+">#daan").eq(i).css("border","solid 1px #ff0000")
+		}
+	})
+}();
+</script>
+{/block}
+{block name="footer"}{/block}

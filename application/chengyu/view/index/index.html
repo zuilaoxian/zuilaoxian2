@@ -1,0 +1,32 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$view.title}{/block}
+{block name="type"}{/block}
+{block name="search"}
+	<div class="list list-group-item">
+		<form action="/{$view.path}/search" method="get" class="bs-example bs-example-form" role="form">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" name="keyword" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								搜!!
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+{/block}
+{block name="main"}
+	{$pages->render()}
+	<div class="content">
+		{volist name='articles' id='vo' empty='暂时没有数据'}
+		{$vo.content}
+		{/volist}
+	</div>
+	{$pages->render()}
+{/block}
+{block name="other"}{/block}
+{block name="footer"}{/block}
