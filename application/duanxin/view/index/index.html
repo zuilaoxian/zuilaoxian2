@@ -2,15 +2,22 @@
 {block name="title"}{$view.title}{/block}
 {block name="type"}
 	{$view.type}
-{/block}
-{block name="search"}
-{/block}
-{block name="main"}
 	{$pages->render()}
 	<div class="content">
 		{$view.content}
 	</div>
 	{$pages->render()}
 {/block}
-{block name="other"}{/block}
-{block name="footer"}{/block}
+{block name="other"}
+	{load href="/static/clipboard.js-2.0.8/dist/clipboard.min.js" /}
+    <script>
+      var clipboard = new ClipboardJS('h4');
+      clipboard.on('success', function (e) {
+        console.log(e.text);
+		$('#keyword').val(e.text);
+      });
+      clipboard.on('error', function (e) {
+        console.log(e);
+      });
+    </script>
+{/block}

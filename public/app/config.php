@@ -67,11 +67,11 @@ class api{
 		return  $html_end;
 	}
 	//字符串截取1，正则方式
-	function cutstr($str,$str_a,$str_b,$str_num=1){
-	$cutstr="";
-	$pattern="/".$str_a."([\w\W]*?)".$str_b."/i";
-	preg_match_all($pattern, $str, $matches);
-	if ($matches[$str_num]){$cutstr=$matches[$str_num][0];}
+	function cutstr($str,$str_a,$str_b){
+		$cutstr="";
+		$pattern="/".$str_a."([\w\W]*?)".$str_b."/i";
+		preg_match($pattern, $str, $matches);
+		if ($matches &&  $matches[1]){$cutstr=$matches[1];}
 	return $cutstr;
 	}
 	//字符串截取2，分割字符串方式

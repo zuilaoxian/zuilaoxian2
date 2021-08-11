@@ -21,7 +21,7 @@ class Index extends Controller
 		$this->redirect('/enterdesk/list/1',302);
 	}
     public function list($id=1){
-		$huan_path=realpath('.').'/temp';
+		$huan_path=realpath('.').'/app/temp/enterdesk';
 		$page=input('page')??1;
 		$list=array_column($this->type(), 'list')[$id-1];
 		$url="https://mm.enterdesk.com/{$list}/{$page}.html";
@@ -75,7 +75,7 @@ class Index extends Controller
 	
 	
     public function view($id=''){
-		$huan_path=realpath('.').'/temp';
+		$huan_path=$huan_path=realpath('.').'/app/temp/enterdesk';
 		$url="https://mm.enterdesk.com/bizhi/{$id}.html";
 		$rules=array(
 			"img"=>array('a','src')	

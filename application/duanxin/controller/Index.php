@@ -102,6 +102,7 @@ class Index extends Controller
 				</div>
 			</div>
 		</div>
+		点击文字即可复制到剪切板
 	</li>';
     }
     public function index($id=''){
@@ -114,7 +115,7 @@ class Index extends Controller
 		foreach($data as $row){
 			$list.='
 				<li class="list-group-item">
-					<h4>'.$row['id'].'.'.$row['content'].'</h4>
+					<h4 data-clipboard-text="'.$row['content'].'">'.$row['id'].'.'.$row['content'].'</h4>
 				</li>';
 		}
 		$view=['title'=>'短信','content'=>$list,'type'=>$this->typelist(),'other'=>''];
@@ -130,7 +131,7 @@ class Index extends Controller
 		foreach($data as $row){
 			$list.='
 				<li class="list-group-item">
-					<h4>'.$row['id'].'.'.$row['content'].'</h4>
+					<h4 data-clipboard-text="'.$row['content'].'">'.$row['id'].'.'.$row['content'].'</h4>
 				</li>';
 		}
 		$view=['title'=>$keyword.' 短信频道搜索结果','content'=>$list,'type'=>$this->typelist(),'other'=>''];

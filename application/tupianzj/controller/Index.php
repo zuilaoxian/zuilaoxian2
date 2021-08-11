@@ -25,7 +25,7 @@ class Index extends Controller
 		$ql = QueryList::getInstance();
 		$ql->use(AbsoluteUrl::class);
 		
-		$huan_path=realpath('.').'/temp';
+		$huan_path=$huan_path=realpath('.').'/app/temp/tupianzj';
 		$page=input('page')??1;
 		$ids=$this->type()[$id-1]['id'];
 		$list=array_column($this->type(), 'list')[$id-1];
@@ -41,15 +41,16 @@ class Index extends Controller
 		$rules=array(
 			"img"=>array('img','src'),
 			"id"=>array('','href'),
-			"title"=>array('','title')
+			"title"=>array('img','alt')
 		);
 		$range='.list_con>.list_con_box>.list_con_box_ul>li>a';
 		$data1 = QueryList::html($datahtml)
 			->rules($rules)
 			->range($range)
-			->encoding('UTF-8','GBK')
+			->encoding('UTF-8')
 			->removeHead()
 			->queryData();
+		$date100=cutstr($datahtml,'list_con_box\">','<div class=\"clearfix\">');
 		$data2=QueryList::html($datahtml)->find(".pageinfo>strong:eq(0)")->text();
 		$data=['type'=>$id,'name'=>array_column($this->type(), 'name')[$id-1]];
 		$this->assign('view', $data);
@@ -77,7 +78,7 @@ class Index extends Controller
 	
     public function view($id=''){
 		$url=base64_decode($id);
-		$huan_path=realpath('.').'/temp';
+		$huan_path=$huan_path=realpath('.').'/app/temp/tupianzj';
 		$datahtml = QueryList::get($url,null,[
 			'cache' => $huan_path,
 			'cache_ttl' => 60*60*12
