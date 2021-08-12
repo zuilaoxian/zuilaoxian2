@@ -53,7 +53,7 @@ class Index extends Controller
 		$view=['title'=>'歇后语','content'=>$list,'type'=>$this->typelist(),'other'=>$this->otherhtml()];
 		$this->assign('view', $view);
 		$this->assign('pages', $data);
-		return $this->fetch();
+		return $this->fetch('xhy');
     }
     public function search()
     {
@@ -75,6 +75,6 @@ class Index extends Controller
 		$view=['title'=>'歇后语','content'=>$list,'type'=>$this->typelist(),'other'=>$this->otherhtml()];
 		$this->assign('view', $view);
 		$this->assign('pages', $data);
-		return $this->fetch('index');
+		return $this->fetch('xhy');
     }
 }

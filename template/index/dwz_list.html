@@ -4,10 +4,10 @@
 	<div class="list list-group-item">
 		<ul class="breadcrumb">
 			{volist name='list' id='vo' empty="暂时没有数据"}
-				<li> <a href="/dwz/list/{$vo.type}">{if condition="($vo.type == $view.type)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
+				<li> <a href="/{$view.path}/list/{$vo.type}">{if condition="($vo.type == $view.type)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
 			{/volist}
 		</ul>
-		<form action="/dwz/search" method="get" class="bs-example bs-example-form" role="form">
+		<form action="/{$view.path}/search" method="get" class="bs-example bs-example-form" role="form">
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="input-group">
@@ -22,11 +22,11 @@
 			</div>
 		</form>
 	</div>
-	{$articles->render()}
+	{$article->render()}
 	<div class="content">
-		{volist name='articles' id='vo' key='k' empty='暂时没有数据'}
-			<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$k:$k}.<a href="/dwz/view/{$vo.id}">{$vo.title}</a></li>
+		{volist name='article' id='vo' key='k' empty='暂时没有数据'}
+			<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$k:$k}.<a href="/{$view.path}/view/{$vo.id}">{$vo.title}</a></li>
 		{/volist}
 	</div>
-	{$articles->render()}
+	{$article->render()}
 {/block}

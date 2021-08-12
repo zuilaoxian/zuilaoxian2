@@ -24,7 +24,7 @@ class Index extends Controller
 		$this->assign('view', $view);
 		$this->assign('articles', $data);
 		
-		return $this->fetch();
+		return $this->fetch('rizhi_list');
     }
     public function view($id='1')
     {
@@ -39,7 +39,7 @@ class Index extends Controller
 		$data=db::table('rizhi_content')->where('id','>',$id)->where('show','1')->find();
 		$this->assign('viewdown', $data);
 		
-		return $this->fetch();
+		return $this->fetch('rizhi_view');
     }
     public function search()
     {
@@ -49,6 +49,6 @@ class Index extends Controller
 		
 		$data=db::table('rizhi_content')->where('title','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
 		$this->assign('articles', $data);
-		return $this->fetch();
+		return $this->fetch('rizhi_search');
     }
 }

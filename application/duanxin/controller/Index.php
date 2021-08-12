@@ -121,7 +121,7 @@ class Index extends Controller
 		$view=['title'=>'短信','content'=>$list,'type'=>$this->typelist(),'other'=>''];
 		$this->assign('view', $view);
 		$this->assign('pages', $data);
-		return $this->fetch();
+		return $this->fetch('duanxin');
     }
     public function search()
     {
@@ -137,6 +137,6 @@ class Index extends Controller
 		$view=['title'=>$keyword.' 短信频道搜索结果','content'=>$list,'type'=>$this->typelist(),'other'=>''];
 		$this->assign('view', $view);
 		$this->assign('pages', $data);
-		return $this->fetch('index');
+		return $this->fetch('duanxin');
     }
 }

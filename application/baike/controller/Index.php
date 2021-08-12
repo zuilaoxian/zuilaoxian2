@@ -30,7 +30,7 @@ class Index extends Controller
 		$this->assign('view', $view);
 		$this->assign('articles', $data);
 		
-		return $this->fetch();
+		return $this->fetch('baike');
     }
     public function search()
     {
@@ -43,6 +43,6 @@ class Index extends Controller
 		$this->assign('list', $this->typelist());
 		$this->assign('view', $view);
 		$this->assign('articles', $data);
-		return $this->fetch('index');
+		return $this->fetch('baike');
     }
 }

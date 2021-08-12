@@ -29,7 +29,7 @@ class Index extends Controller
 			);
 			echo json_encode($str);
 		}else{
-			return $this->fetch();
+			return $this->fetch('qqhead');
 		}
     }
 }

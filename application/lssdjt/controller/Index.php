@@ -33,7 +33,7 @@ class Index extends Controller
 			$lists[]=["id"=>$row['Id'],"title"=>$row['标题'],"y"=>$row['年'],'img'=>$img];
 		}
 		$this->assign('list', $lists);
-		return $this->fetch();
+		return $this->fetch('lssdjt');
     }
     public function view($id='')
     {

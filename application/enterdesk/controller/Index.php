@@ -70,7 +70,7 @@ class Index extends Controller
         $this->assign('plist', $p);
         $this->assign('plistpage', $p->render());
 
-		return $this->fetch();
+		return $this->fetch('enterdesk_list');
     }
 	
 	
@@ -107,6 +107,6 @@ class Index extends Controller
 		$data=['title'=>$data2,'content'=>$html];
 		$this->assign('list', $this->type());
 		$this->assign('view', $data);
-		return $this->fetch();
+		return $this->fetch('enterdesk_view');
     }
 }
