@@ -43,17 +43,10 @@ $thisurl="{$http_type}{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}?";
 $web_charset=$_GET['web_charset']??NULL;
 
 use \Curl\Curl;
+use QL\QueryList;
+
 //类开始
 class api{
-	function gethtml($url,$huantime=0){
-		GLOBAL $huan_path;
-		if (!$huantime) $huantime=60*60*12;
-		$curl = new Curl();
-		if (!file_exists($huan_path.'/'.md5($url)) or time()-filemtime($huan_path.'/'.md5($url))>$huantime){
-			$data=$curl->download($url, $huan_path.'/'.md5($url));
-		}
-		return file_get_contents($huan_path.'/'.md5($url));
-	}
 	public $MyClassPath;
 	//public $web_charset;
 	/*顶部*/
@@ -65,6 +58,21 @@ class api{
 	function end(){
 		require $this->MyClassPath.'/foot.php';
 		return  $html_end;
+	}
+	/*字符串替换
+	replace(
+	$content,
+		[
+			['<p>','<p>&emsp;&emsp;'],
+			['您可以在百度里搜索.*?最新章节！','',1], 第三参数表示正则替换
+		]
+	);
+	*/
+	function replace($str,$strarr){
+		foreach($strarr as $v){
+			$str=$v[2]?preg_replace('/'.$v[0].'/is',$v[1],$str):str_replace($v[0],$v[1],$str);
+		}
+	return $str;
 	}
 	//字符串截取1，正则方式
 	function cutstr($str,$str_a,$str_b){

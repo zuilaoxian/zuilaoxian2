@@ -121,7 +121,7 @@ $(function(){
 		</div>
 </li>
 api;
-$html=$api->head($title).$search.$html.$api->end();
+$html=$api->head($booktitle).$search.$html.$api->end();
 echo $web_charset?$api->json($apistr):$html;
 
 

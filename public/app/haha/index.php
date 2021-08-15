@@ -75,7 +75,7 @@ if (!$datahtml){
 		);
 		$haha=$db_pdo->queryrow("SELECT * FROM haha where ids=".$id);
 		if (!$haha){
-			$db_pdo->execs("INSERT INTO haha (ids,img,title) VALUES (".$id.",'".$img."','".$title."')");
+			$db_pdo->execs("INSERT INTO haha (ids,img,title) VALUES (".$id.",'".$img."','".addslashes($title)."')");
 		}
 	}
 }
@@ -83,7 +83,7 @@ if (!$datahtml){
 //输出
 $html=$api->head("小视频");
 $html.=<<<api
-<div class="well well-sm">弹出层打开视频 <input type="checkbox" id="haha_new_box" name="haha_new_box" value="弹出层打开视频" checked="checked" /></div>
+<div class="well well-sm">弹出层打开视频 <input type="checkbox" id="haha_new_box" name="haha_new_box" value="弹出层打开视频" checked /></div>
 api;
 if ($str["msg"]){
 $html.=$api->page($str['count'],$str['pagecount'],$str['pagesize'],$page,"?");
@@ -110,7 +110,7 @@ $html.=<<<api
 ;!function(){
 	//搜狗哈哈
 	$('#haha_new_box').click(function () {
-		if ($("#haha_new_box").prop("checked")){
+		if ($("#haha_new_box").is(':checked')){
 			$.cookie('haha_web', true, { expires: 30, path: '/' });
 			layer.msg('弹出层打开',{time:2000,anim:6});
 		}else{
@@ -118,13 +118,13 @@ $html.=<<<api
 			layer.msg('新页面打开',{time:2000,anim:6});
 		}
 	})
-	if ($.cookie('haha_web')){
-		$("#haha_new_box").prop("checked",true);
+	if ($.cookie('haha_web') || $("#haha_new_box").is(':checked')){
+		$("#haha_new_box").attr("checked",true);
 	}else{
-		$("#haha_new_box").prop("checked",false);
+		$("#haha_new_box").attr("checked",false);
 	}
 	$('.media-body a').click(function (event) {
-		if ($.cookie('haha_web')){
+		if ($.cookie('haha_web') || $("#haha_new_box").is(':checked')){
 			event.preventDefault();
 		}else{
 			return;

@@ -35,7 +35,12 @@ $data = QueryList::html($datahtml)
 $booktitle=$data['book'];
 $viewtitle=$data['title'];
 $content=$data['content'];
-$content=str_replace('<p>',"<p>&emsp;&emsp;",$content);
+$content=$api->replace($content,[
+//['<p>',htmlentities('		').'<p>'],
+['您可以在百度里搜索.*?最新章节！','',1],
+]);
+//$content=str_replace('<p>',"<p>&emsp;&emsp;",$content);
+//$content=preg_replace('/您可以在百度里搜索.*?最新章节！/is','',$content);
 $up=$data['up'];
 $down=$data['down'];
 $title=$viewtitle." ".$booktitle;
@@ -54,13 +59,16 @@ if ($down){
 }
 $pager.="</ul></li>";
 $html.='
+	<style>
+	.content p{padding:0px;margin:0px;text-indent:1em;line-height: 30px;font-size:17px;}
+	</style>
 		<ul class="breadcrumb">
 			<li><a href="./?">小说首页</a></li>
 			<li><a href="book.php?bookid='.$bookid.'">'.$booktitle.'</a></li>
 		</ul>
 	<li class="list-group-item"><h3>'.$viewtitle.'</h3></li>
 '.$pager.'
-<li class="list-group-item">'.$content.'</li>
+<div class="content list-group-item">'.$content.'</li>
 '.$pager.'
 ';PHP_EOL;
 $apistr['msg']=['book'=>$booktitle,'title'=>$viewtitle,'content'=>$content,'next'=>$down,'prev'=>$up];
