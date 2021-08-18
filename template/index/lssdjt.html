@@ -1,6 +1,8 @@
 {extend name="../template/base.html""/}
 {block name="title"}历史上的 {$view.0}-{$view.1}{/block}
-{block name="type"}{/block}
+{block name="type"}
+	{load href="/static/laydate/laydate.js" /}
+{/block}
 {block name="search"}
 	<div class="list list-group-item">
 		<a id="ydate" class="btn btn-default" href="/lssdjt/{$view.2}/{$view.3}" title="历史上的{$view.2}月{$view.3}日">前一天</a>

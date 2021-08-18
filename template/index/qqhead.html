@@ -24,14 +24,8 @@
 			dataType:'json',
 				success:function(data){
 				console.log(data.code)
-					if (!data.code){
-						$('#myModalLabel').html(data.title)
-						$('.modal-body').html(data.html)
-					}else{
-						$('#myModalLabel').html('无法获取')
-						$('.modal-body').html('无法获取')
-						//layer.msg('无法获取',{time: 1500,anim:6})
-					}
+					$('#myModalLabel').html(data.data)
+					$('.modal-body').html(data.msg)
 				}
 			})
 		})

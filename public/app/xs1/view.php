@@ -60,7 +60,7 @@ if ($down){
 $pager.="</ul></li>";
 $html.='
 	<style>
-	.content p{padding:0px;margin:0px;text-indent:1em;line-height: 30px;font-size:17px;}
+	.content {padding:0px;margin:0px;text-indent:1em;line-height: 30px;font-size:17px;}
 	</style>
 		<ul class="breadcrumb">
 			<li><a href="./?">小说首页</a></li>
@@ -68,7 +68,7 @@ $html.='
 		</ul>
 	<li class="list-group-item"><h3>'.$viewtitle.'</h3></li>
 '.$pager.'
-<div class="content list-group-item">'.$content.'</li>
+<div class="content list-group-item">'.$content.'</div>
 '.$pager.'
 ';PHP_EOL;
 $apistr['msg']=['book'=>$booktitle,'title'=>$viewtitle,'content'=>$content,'next'=>$down,'prev'=>$up];

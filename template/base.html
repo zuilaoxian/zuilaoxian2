@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 	<title>{block name="title"}{/block}</title>
@@ -11,7 +12,6 @@
 	<script src="//cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	{load href="/static/layer/layer.js" /}
 	{load href="/static/js/my.js" /}
-	{load href="/static/laydate/laydate.js" /}
 	<style>
 		.container{max-width:950px;}
 		.modal-body img{max-width:100%;}
@@ -29,30 +29,25 @@
 			</button>
           <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span>Home</a>
 		</div>
-        <!--div id="navbar" class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
-				<li><a href="/haha"><span class="glyphicon glyphicon-play-circle"></span>小视频</a></li>
-				<li><a href="/dwz"><span class="glyphicon glyphicon-book"></span>文章</a></li>
-			</ul>
-			<ul class="nav navbar-nav">
-				<li class="dropdown"><a href="#" class="dropdown-toggle" id="jsontools" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-gift"></span>其它!</a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						<li class="active"><a>测试</a></li>
-						<li><a href="/duanxin"><span class="glyphicon glyphicon-book"></span>短信大全</a></li>
-						<li><a href="/xhy"><span class="glyphicon glyphicon-book"></span>歇后语</a></li>
-						<li><a href="/miyu2"><span class="glyphicon glyphicon-book"></span>谜语大全</a></li>
-						<li><a href="/qqhead"><span class="glyphicon glyphicon-hand-up"></span>QQhead</a></li>
-					</ul>
-				</li>
-			</ul>
+        <div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle" id="jsontools" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-gift"></span>其它</a>
+				<li class="dropdown"><a href="#" class="dropdown-toggle" id="jsontools" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+					{if condition="$Think.cookie.user"}
+					<span class="glyphicon glyphicon-user"></span> {$Think.cookie.user}</a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						<li><a href="/baike/"><span class="glyphicon glyphicon-list-alt"></span>百科问答</a></li>
+						<li><a href="/logout" id="logout"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
 					</ul>
+					{else /}
+					<span class="caret"></span> <span class="glyphicon glyphicon-user"></span> 游客</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li><a href="/login/"><span class="glyphicon glyphicon-user"></span> 登录</a></li>
+					</ul>
+					{/if}
+					
+					
 				</li>
 			</ul>
-		</div-->
+		</div>
 	</div>
 </nav>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

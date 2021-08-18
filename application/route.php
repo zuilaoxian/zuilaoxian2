@@ -39,7 +39,8 @@ return [
 		'view/:id' => ['rizhi/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
     '[qqhead]'     => [
-		':id' => ['qqhead/index/index', ['method' => 'get'],['id'=>'\d+']],
+		':id' => ['index/qqhead/index', ['method' => 'get'],['id'=>'\d+']],
+		'' => ['index/qqhead/index', ['method' => 'get']],
 	],
     '[enterdesk]'     => [
 		'list/:id' => ['enterdesk/index/list', ['method' => 'get'],['id'=>'\d+']],
@@ -89,5 +90,14 @@ return [
 	],
     '[yanyu]'     => [
 		'search' => ['yanyu/index/search', ['method' => 'get']],
+	],
+    '[login]'     => [
+		'login' => ['login/index/login', ['method' => 'post']],
+	],
+    '[logout]'     => [
+		'' => ['login/index/logout', ['method' => 'get']],
+	],
+    '[reg]'     => [
+		'' => ['login/index/reg', ['method' => 'post']],
 	],
 ];

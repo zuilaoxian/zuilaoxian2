@@ -15,7 +15,7 @@ echo $api->head("抖音视频解析");
 }
 </style>
 <div class="input-group">
-	<label for="name">输入链接，如：<a id="test_data">https://v.douyin.com/J79Fe5A/</a></label>
+	<label for="name">输入链接，如：<a id="test_data">https://v.douyin.com/Jwbfb5c/</a></label>
 </div>
 <br/>
 <div class="input-group">

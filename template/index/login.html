@@ -1,0 +1,69 @@
+﻿{extend name="../template/base.html""/}
+{block name="title"}登录注册{/block}
+{block name="main"}
+	<li class="list-group-item">
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="username" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="username" name="username" placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="password" class="col-sm-2 control-label">密码</label>
+				<div class="col-sm-10">
+				<input type="password" class="form-control" id="password" name="password" placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">邮箱</label>
+				<div class="col-sm-10">
+				<input type="text" class="form-control" id="email" name="email" placeholder="注册时可选 登陆时不填">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+				<button type="button" id="login" action="login/login" class="btn btn-default btn-block" style="border-color: green;">登录</button>
+				</div>
+				<div class="col-md-6">
+				<button type="button" id="login" action="reg" class="btn btn-default btn-block" style="border-color: red;">注册</button>
+				</div>
+			</div>
+		</form>
+	</li>
+<script>
+$(function() {
+//设定
+	$("button#login").click(function(){
+		userdata=$("form").serialize();
+		action=$(this).attr('action');
+		if (!$('#username').val()) {layer.tips('不能为空', '#username', {tips: [1, '#0FA6D8']}); return;}
+		if (!$('#password').val()) {layer.tips('不能为空', '#password', {tips: [1, '#0FA6D8']}); return;}
+			$.ajax({
+			url:'/'+action,
+			type:'post',
+			data:userdata,
+			timeout:'15000',
+			async:true,
+				success:function(data){
+						layer.alert(
+							data.msg,
+							{
+								closeBtn: 0,
+								title:''
+								,btn: ['首页','重载','关闭']
+								,yes:function(){
+									location.href="/";
+								}
+								,btn2:function(){
+									location.reload();
+								}
+							}
+						);
+				}
+			})
+	
+	});
+});
+</script>
+{/block}
