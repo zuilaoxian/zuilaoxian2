@@ -11,15 +11,18 @@
 		<span class="input-group-btn" id="btnr"><button id="trash" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span></button></span>
 	</div>
 	<br/>
-	<button id="qqhead" class="btn btn-primary btn-block" data-loading-text="Loading..." data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-hand-up"></span> Get √
+	<button id="QQhead" class="btn btn-primary btn-block" data-loading-text="Loading..." data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-hand-up"></span> Get √
 	</button>
 	<script>
 	$(function () {
-		$("button#qqhead").click(function(){
+		$("#QQhead").click(function(){
 			$.ajax({
-			url:'/qqhead/'+$("#input_data").val(),
-			type:'get',
+			url:'/qqhead/',
+			type:'post',
 			timeout:'15000',
+			data:{
+			    id:$("#input_data").val()
+			},
 			async:true,
 			dataType:'json',
 				success:function(data){

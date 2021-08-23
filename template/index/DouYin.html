@@ -1,7 +1,6 @@
-<?php
-require_once("../config.php");
-echo $api->head("抖音视频解析");
-?>
+{extend name="../template/base.html""/}
+{block name="title"}抖音视频解析{/block}
+{block name="main"}
 <style>
 .z_tip {
     border: 1px solid #5edabd;
@@ -24,7 +23,7 @@ echo $api->head("抖音视频解析");
 	<span class="input-group-btn" id="btnr"><button id="trash" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span></button></span>
 </div>
 <br/>
-<button id="get_data" class="btn btn-primary btn-block" data-loading-text="Loading..." data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-hand-up"></span> Get √
+<button id="DouYin" class="btn btn-primary btn-block" data-loading-text="Loading..." data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-hand-up"></span> Get √
 </button>
 <div class="z_tip"><b>自动提取链接说明：</b><br/> 
 如下文字中含有链接，输入后自动提取，如果提取错误，请自行修正<br/> “<a id="test_data">拥有新的传感器位移式光学图像防抖，不需要稳定器的我，防抖能力再次提升！！%我和我的猫  https://v.douyin.com/Jwbfb5c/ 复制此lian接，达开Dou音搜索，値接观看视pin！</a>”</div>
@@ -37,6 +36,27 @@ echo $api->head("抖音视频解析");
 			if (regtext) $("#input_data").val(regtext[0]);
 		}
 	});
+	$("#DouYin").click(function(){
+		$.ajax({
+		url:'/DouYin/index',
+		type:'post',
+		data:{
+			url:$("#input_data").val()
+			},
+		timeout:'15000',
+		async:true,
+		dataType:'json',
+			success:function(data){
+				if (!data.code){
+					$('#myModalLabel').html(data.title)
+					$('.modal-body').html(data.html)
+				}else{
+					$('#myModalLabel').html('无法获取')
+					$('.modal-body').html('无法获取')
+					//layer.msg('无法获取',{time: 1500,anim:6})
+				}
+			}
+		})
+	})
 </script>
-<?php
-echo $api->end();
+{/block}

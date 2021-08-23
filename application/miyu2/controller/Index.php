@@ -42,11 +42,10 @@ class Index extends Controller
 				<li class="list-group-item">
 					<h4>'.$row['id'].'.'.$row['title'].'</h4>
 					<p>
-						<a id="answer" class="btn btn-default">答案</a>
+						<a id="answer" class="btn btn-default">答案<small>('.$row['type'].')</small></a>
 							<span style="display:none">
 								<font color="red">'.$row['content'].'</font>
 							</span>
-							<small>('.$row['type'].')</small>
 					</p>
 				</li>';
 		}

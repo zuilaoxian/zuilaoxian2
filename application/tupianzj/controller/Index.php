@@ -1,11 +1,11 @@
 <?php
 namespace app\tupianzj\controller;
-use think\Controller;
+use \app\Common\controller\Base;
 use QL\Ext\AbsoluteUrl;
 use GuzzleHttp\Psr7\Response;
 use QL\QueryList;
 use think\paginator\driver\Bootstrap;
-class Index extends Controller
+class Index extends Base
 {
     public function type(){
 		$type=[
@@ -77,6 +77,7 @@ class Index extends Controller
 	
 	
     public function view($id=''){
+		$this->islogin(12,'tupianzj');
 		$url=base64_decode($id);
 		$huan_path=$huan_path=realpath('.').'/app/temp/tupianzj';
 		$datahtml = QueryList::get($url,null,[

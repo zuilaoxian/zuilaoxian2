@@ -38,9 +38,11 @@ return [
 		'search' => ['rizhi/index/search', ['method' => 'get']],		
 		'view/:id' => ['rizhi/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
-    '[qqhead]'     => [
-		':id' => ['index/qqhead/index', ['method' => 'get'],['id'=>'\d+']],
-		'' => ['index/qqhead/index', ['method' => 'get']],
+    '[QQhead]'     => [
+		'' => ['index/QQhead/index'],
+	],
+    '[DouYin]'     => [
+		'' => ['index/DouYin/index'],
 	],
     '[enterdesk]'     => [
 		'list/:id' => ['enterdesk/index/list', ['method' => 'get'],['id'=>'\d+']],
