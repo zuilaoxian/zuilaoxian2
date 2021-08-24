@@ -25,13 +25,12 @@ class Index extends Base
 		$ql = QueryList::getInstance();
 		$ql->use(AbsoluteUrl::class);
 		
-		$huan_path=$huan_path=realpath('.').'/app/temp/tupianzj';
 		$page=input('page')??1;
 		$ids=$this->type()[$id-1]['id'];
 		$list=array_column($this->type(), 'list')[$id-1];
 		$url="https://www.tupianzj.com/meinv/{$list}/list_{$ids}_{$page}.html";
 		$datahtml = QueryList::get($url,null,[
-				'cache' => $huan_path,
+				'cache' => HuanPath.'enterdesk',
 				'cache_ttl' => 60*60*12
 				])
 				->getHtml();
@@ -81,7 +80,7 @@ class Index extends Base
 		$url=base64_decode($id);
 		$huan_path=$huan_path=realpath('.').'/app/temp/tupianzj';
 		$datahtml = QueryList::get($url,null,[
-			'cache' => $huan_path,
+			'cache' => HuanPath.'enterdesk',
 			'cache_ttl' => 60*60*12
 			])
 		->getHtml();

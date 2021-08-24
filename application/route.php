@@ -44,6 +44,9 @@ return [
     '[DouYin]'     => [
 		'' => ['index/DouYin/index'],
 	],
+    '[HaHa]'     => [
+		'' => ['index/HaHa/index'],
+	],
     '[enterdesk]'     => [
 		'list/:id' => ['enterdesk/index/list', ['method' => 'get'],['id'=>'\d+']],
 		'list' => ['enterdesk/index/list', ['method' => 'get']],

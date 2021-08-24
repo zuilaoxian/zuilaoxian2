@@ -13,6 +13,7 @@
 $weekarray=["日","一","二","三","四","五","六"];
 $mytime=date('Y-m-d H:i:s').' 星期'.$weekarray[date("w")];
 define('MYTIME',$mytime);
+define('HuanPath',realpath('.').'/app/temp/');
 //正则提取数据，单数据模式
 function cutstr($str,$str_a,$str_b){
 	$cutstr="";	$pattern="/".$str_a."([\w\W]*?)".$str_b."/i";

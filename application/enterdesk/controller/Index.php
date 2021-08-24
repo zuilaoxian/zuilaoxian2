@@ -21,7 +21,6 @@ class Index extends Controller
 		$this->redirect('/enterdesk/list/1',302);
 	}
     public function list($id=1){
-		$huan_path=realpath('.').'/app/temp/enterdesk';
 		$page=input('page')??1;
 		$list=array_column($this->type(), 'list')[$id-1];
 		$url="https://mm.enterdesk.com/{$list}/{$page}.html";
@@ -32,7 +31,7 @@ class Index extends Controller
 		);
 		$range='.egeli_pic_m>.egeli_pic_li>dl>dd>a';
 		$datahtml = QueryList::get($url,null,[
-			'cache' => $huan_path,
+			'cache' => HuanPath.'enterdesk',
 			'cache_ttl' => 60*60*12
 			])
 			->getHtml();
@@ -82,7 +81,7 @@ class Index extends Controller
 		);
 		$range='.swiper-wrapper>.swiper-slide';
 		$datahtml = QueryList::get($url,null,[
-			'cache' => $huan_path,
+			'cache' => HuanPath.'enterdesk',
 			'cache_ttl' => 60*60*12
 			])
 			->getHtml();

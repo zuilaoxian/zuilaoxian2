@@ -1,0 +1,42 @@
+{extend name="../template/base.html""/}
+{block name="title"}小视频{/block}
+{block name="type"}
+	{$plistpage??$list->render()}
+	<div class="content">
+		{volist name='list' id='vo' empty="暂时没有数据"}
+		<div class="media">
+			<div class="media-left">
+				<img src="{$vo.img}" class="media-object" style="width:130px">
+			</div>
+			<div class="media-body media-middle">
+				<a href="{$vo.id}" id="{$vo.id}">
+					<h4 class="media-heading">{$vo.title}</h4>
+				</a>
+			</div>
+		</div>
+		{/volist}
+	</div>
+	{$plistpage??$list->render()}
+	<script>
+		$('.media-body a').click(function (event) {
+			event.preventDefault();
+			layer.msg('加载中，请稍后',{time: 1200,anim:6});
+			$.ajax({
+				url:'/HaHa/',
+				type:'post',
+				data:{
+					id:$(this).attr('id')
+					},
+				timeout:'15000',
+				async:true,
+				dataType:'json',
+					success:function(data){
+						layer.closeAll();
+						$('#myModalLabel').html(data.title)
+						$('.modal-body').html(data.html)
+						$('#myModal').modal('show')
+					}
+			})
+		})
+	</script>
+{/block}
