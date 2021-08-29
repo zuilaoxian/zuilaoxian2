@@ -33,7 +33,7 @@ class Index extends Controller
 		$viewup=db::table('dwz_content')->where('id','<',$id)->where('show','1')->order('id','desc')->find();
 		$viewdown=db::table('dwz_content')->where('id','>',$id)->where('show','1')->find();
 		
-		$data['title2']='读文章';
+		$data['title2']='圣经';
 		$data['path']='dwz';
 		$this->assign('list', $this->typelist());
 		$this->assign('view', $data);
