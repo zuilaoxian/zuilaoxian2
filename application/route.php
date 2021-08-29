@@ -38,6 +38,9 @@ return [
 		'search' => ['rizhi/index/search', ['method' => 'get']],		
 		'view/:id' => ['rizhi/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
+    '[shengjing]'     => [
+		':id' => ['shengjing/index/list', ['method' => 'get'],['id'=>'\d+']],
+	],
     '[QQhead]'     => [
 		'' => ['index/QQhead/index'],
 	],
@@ -47,6 +50,28 @@ return [
     '[HaHa]'     => [
 		'' => ['index/HaHa/index'],
 	],
+    '[QrCode]'     => [
+		'' => ['index/QrCode/index'],
+	],
+    '[Post]'     => [
+		'' => ['index/Post/index'],
+	],
+    '[KouZhao]'     => [
+		'' => ['index/KouZhao/index'],
+	],
+    '[ZhaNan]'     => [
+		':list' => ['index/ZhaNan/index', ['method' => 'get'],['list'=>'\d+']],
+		'search' => ['index/ZhaNan/search', ['method' => 'get']],
+		'' => ['index/ZhaNan/index', ['method' => 'get']],
+	],
+    '[Xs]'     => [
+		':id' => ['index/xs/index', ['method' => 'get'],['id'=>'\d+']],
+		'book/:id' => ['index/xs/book', ['method' => 'get'],['id'=>'\d+']],
+		'view/:id1/:id2' => ['index/xs/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
+		'search' => ['index/xs/search', ['method' => 'get']],
+		'' => ['index/xs/index'],
+	],
+	
     '[enterdesk]'     => [
 		'list/:id' => ['enterdesk/index/list', ['method' => 'get'],['id'=>'\d+']],
 		'list' => ['enterdesk/index/list', ['method' => 'get']],

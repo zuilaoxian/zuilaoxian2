@@ -34,6 +34,7 @@ class HaHa extends Base
 					$ids=$json_str->list[0]->id;
 					$title=$json_str->list[0]->title;
 					$img=$json_str->list[0]->image_url;
+					$img=explode('&url=',$img)[1]??$img;
 					$url=$json_str->list[0]->text;
 					$str=array(
 						"msg"=>true,
@@ -49,7 +50,7 @@ class HaHa extends Base
 						$title=$row->title;
 						$img=$row->image_url;
 						$url=$row->text;
-						
+						$img=explode('&url=',$img)[1]??$img;
 						$haha=db('haha')->where('ids',$ids)->find();
 						$hahadata=[
 							'ids'=>$ids,
@@ -63,7 +64,7 @@ class HaHa extends Base
 								db('haha')->insert($hahadata);
 							}
 							if ($haha && !$haha['url']) {
-								db('haha')->where('ids', $ids)->update(['url'=>$url]);
+								db('haha')->where('ids', $ids)->update(['url'=>$url,'date'=>date('Y-m-d H:i:s')]);
 							}
 						}
 					}

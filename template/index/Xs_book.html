@@ -1,0 +1,53 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$title}{/block}
+{block name="type"}
+	<ul class="breadcrumb">
+		<li><a href="/Xs">小说首页</a></li>
+		<li>{$title}</a></li>
+	</ul>
+	<div class="list list-group-item">
+		<form action="/{$path}/search" method="get" class="bs-example bs-example-form" role="form">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" name="keyword" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								搜!!
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<style>
+		.content .list-group-item{
+			display: inline-block;
+			width: 49%;
+			overflow: hidden;
+			white-space:nowrap;
+			height: 42px;
+		}
+		.content .list-group-item a{
+			display: block;
+			width:100%
+		}
+	</style>
+	<div class="media list-group-item">
+		<div class="media-left media-middle">
+			<!--img src="" class="media-object" style="width:120px"-->
+		</div>
+		<div class="media-body">
+			<h3 class="media-heading">{$title}</h3>({$zuozhe})
+			
+		</div>
+	</div>
+	
+	<div class="content">
+	{volist name='list' id='vo' key='k' empty='暂时没有数据'}
+	<li class="list-group-item"><a href="/{$path}/view/{$book}/{$vo.id}">{$vo.title}</a></li>
+	{/volist}
+</div>
+
+{/block}

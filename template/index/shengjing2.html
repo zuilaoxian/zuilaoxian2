@@ -1,0 +1,77 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$view.Title}{/block}
+{block name="type"}
+<style>
+/* Custom Styles */
+    ul.nav-tabs{
+        width: 100px;
+        margin-top: 0px;
+		height: 90%;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+		overflow:auto;
+    }
+    ul.nav-tabs li{
+        margin: 0;
+        border-top: 1px solid #ddd;
+    }
+    ul.nav-tabs li:first-child{
+        border-top: none;
+    }
+    ul.nav-tabs li a{
+        margin: 0;
+        padding: 8px 16px;
+        border-radius: 0;
+    }
+    ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
+        color: #fff;
+        background: #0088cc;
+        border: 1px solid #0088cc;
+    }
+    ul.nav-tabs li:first-child a{
+        border-radius: 4px 4px 0 0;
+    }
+    ul.nav-tabs li:last-child a{
+        border-radius: 0 0 4px 4px;
+    }
+    ul.nav-tabs.affix{
+        top: 30px; /* Set the top position of pinned element */
+    }
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#myNav").affix({
+        offset: { 
+            top: 125 
+     	}
+    });
+});
+</script>
+<ul class="breadcrumb">
+	<li><a href="/{$view.path}">书本列表</a></li>
+	<li>{$view.Title}</li>
+	<li>章节</li>
+</ul>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="row">
+        <div class="col-xs-2" id="myScrollspy">
+            <ul class="nav nav-tabs nav-stacked affix-top" id="myNav">
+				{volist name='list1' id='vo' key='k' empty='暂时没有数据'}
+				<li{if condition="($k == 1)"} class="active"{/if}><a href="#section-{$vo.zhang}">{$vo.zhang}章</a></li>
+				{/volist}
+            </ul>
+        </div>
+	{assign name="mao" value="0" /}
+	<div class="col-xs-10">
+	{volist name='list2' id='vo' key='k' empty='暂时没有数据'}
+	
+	<li class="list-group-item"{if condition="($vo.zhang > $mao)"} id="section-{$vo.zhang}"{/if}>
+		<font color="red">{$vo.zhang}.{$vo.duan}</font> {$vo.cn}{$vo.en}
+	</li>
+	{assign name="mao" value="$vo.zhang" /}
+	{/volist}
+	</div>
+</div>
+
+{/block}

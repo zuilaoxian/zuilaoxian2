@@ -1,0 +1,28 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$title}{/block}
+{block name="type"}
+	<div class="list list-group-item">
+		<form action="/{$path}/search" method="get" class="bs-example bs-example-form" role="form">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" name="keyword" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								搜!!
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	{$plistpage}
+	<div class="content">
+	{volist name='list' id='vo' key='k' empty='暂时没有数据'}
+	<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$k:$k}.<a href="/{$path}/book/{$vo.id}"><big>{$vo.book}</big></a>(<small>{$vo.zuozhe}</small>)</li>
+	{/volist}
+	{$plistpage}
+</div>
+
+{/block}

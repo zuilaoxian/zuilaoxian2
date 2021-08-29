@@ -1,0 +1,11 @@
+{extend name="../template/base.html""/}
+{block name="title"}圣经{/block}
+{block name="type"}
+
+	<div class="content">
+	{volist name='list' id='vo' empty='暂时没有数据'}
+	<li class="list-group-item"><h4><a href="/shengjing/{$vo.id}">{$vo.Title}</a></h4></li>
+	{/volist}
+</div>
+
+{/block}

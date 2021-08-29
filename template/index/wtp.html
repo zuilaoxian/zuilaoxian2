@@ -1,0 +1,38 @@
+{extend name="../template/base.html""/}
+{block name="title"}文字转图片{/block}
+{block name="main"}
+<script src="/static/js/html2canvas.js"></script>
+	<label for="name">使用网页截图的方式,可将大量文字转为图片</label>
+	<div class="input-group">
+		<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+		<textarea id="input_data" type="text" class="form-control" rows="5"></textarea>
+		<span class="input-group-btn input-group-addon" id="btnr"><button id="trash" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span></button></span>
+	</div>
+	<button id="wtp" class="btn btn-default btn-block" data-loading-text="Loading..."><span class="glyphicon glyphicon-hand-up"></span> 生成图片
+	</button>
+	<hr>
+	<h4 id="text"></h4>
+	<script>
+	$(function () {
+		$("#wtp").click(function(){
+			text=$('#input_data').val();
+			if (!text){
+				layer.tips("不能为空", "#input_data", {tips: 1});
+				return;
+			}
+			text=text.replace(/\r\n/g,'<br>\r\n');
+			text=text.replace(/\n/g,'<br>\n');
+			$('#text').html(text).show();
+			html2canvas(document.getElementById('text'),{scale:4,logging:false,useCORS:true}).then(function(canvas) {
+			var imgUrl= canvas.toDataURL("png");
+			$('#myModalLabel').html('转换完成')
+			$('.modal-body').html('<img src="'+imgUrl+'" class="img-rounded">')
+			$("#myModal").modal("show")
+			})
+		})
+	$('#myModal').on('hide.bs.modal', function () {
+			$('#text').hide();
+		})
+	})
+	</script>
+{/block}

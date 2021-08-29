@@ -7,4 +7,8 @@ class Index extends Controller
     {
 		return $this->fetch('index');
     }
+    public function wtp()
+    {
+		return $this->fetch('index/wtp');
+    }
 }

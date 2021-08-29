@@ -1,0 +1,48 @@
+{extend name="../template/base.html"" /}
+{block name="title"}{$view.title}{/block}
+{block name="type"}
+	<div class="list list-group-item">
+		<ul class="breadcrumb">
+			{volist name='list' id='vo' empty="暂时没有数据"}
+				<li> <a href="/{$view.path}/{$vo.type}">{if condition="($vo.type == $view.type)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
+			{/volist}
+		</ul>
+		<form action="/{$view.path}/search" method="get" class="bs-example bs-example-form" role="form">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" name="keyword" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								搜!!
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+{/block}
+{block name="search"}
+	<style>
+	#daan{
+		border: solid 1px #eee;
+		padding: 3px 5px;
+		margin: 1px;
+		border-radius: 3px;
+		display:inline-block;
+	}
+	</style>
+{/block}
+{block name="main"}
+	{$articles->render()}
+	<div class="content">
+		{volist name='articles' id='vo' empty='暂时没有数据'}
+		<li class="list-group-item">
+			<h4>{$vo.content}</h4>
+		</li>
+		{/volist}
+	</div>
+	{$articles->render()}
+{/block}
+{block name="footer"}{/block}

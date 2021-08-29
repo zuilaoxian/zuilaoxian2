@@ -24,9 +24,9 @@
 	</div>
 	{$article->render()}
 	<div class="content">
-		{volist name='article' id='vo' key='k' empty='暂时没有数据'}
-			<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$k:$k}.<a href="/{$view.path}/view/{$vo.id}">{$vo.title}</a></li>
-		{/volist}
-	</div>
+	{volist name='article' id='vo' key='k' empty='暂时没有数据'}
+	<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$k:$k}.<a href="/{$view.path}/view/{$vo.id}">{$vo.title}</a></li>
+	{/volist}
+</div>
 	{$article->render()}
 {/block}

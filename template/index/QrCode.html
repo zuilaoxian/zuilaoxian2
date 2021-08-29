@@ -1,0 +1,33 @@
+{extend name="../template/base.html""/}
+{block name="title"}二维码生成{/block}
+{block name="main"}
+	<div class="input-group">
+		<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+		<textarea id="input_data" type="text" class="form-control" rows="5"></textarea>
+		<span class="input-group-btn input-group-addon" id="btnr"><button id="trash" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span></button></span>
+	</div>
+	<br/>
+	<button id="QrCode" class="btn btn-default btn-block" data-loading-text="Loading..." data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-hand-up"></span> 生成二维码
+	</button>
+	<hr>
+	<script>
+	$(function () {
+		$("#QrCode").click(function(){
+			$.ajax({
+			url:'',
+			type:'post',
+			timeout:'15000',
+			data:{
+			    text:$("#input_data").val()
+			},
+			async:true,
+			dataType:'json',
+				success:function(data){
+					$('#myModalLabel').html(data.title)
+					$('.modal-body').html(data.content)
+				}
+			})
+		})
+	})
+	</script>
+{/block}
