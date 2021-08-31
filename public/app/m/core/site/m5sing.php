@@ -46,7 +46,7 @@ class m5sing
         }
         $radio_song_url = [
             'method'        => 'GET',
-            'url'           => 'http://service.5sing.kugou.com/song/getSongUrl',
+            'url'           => 'http://service.5sing.kugou.com/song/getsongurl',
             'referer'       => 'http://5sing.kugou.com/'.$type.'/' . $songid . '.html',
             'proxy'         => false,
             'body'          => [

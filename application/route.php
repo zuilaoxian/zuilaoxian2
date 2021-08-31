@@ -71,7 +71,12 @@ return [
 		'search' => ['index/xs/search', ['method' => 'get']],
 		'' => ['index/xs/index'],
 	],
-	
+    '[MM8]'     => [
+		':id' => ['index/MM8/index', ['method' => 'get'],['id'=>'\d+']],
+		'book/:id' => ['index/MM8/book', ['method' => 'get'],['id'=>'\d+']],
+		'view/:list1/:list2/:id' => ['index/MM8/view', ['method' => 'get'],['id'=>'\d+']],
+		'' => ['index/MM8/index'],
+	],
     '[enterdesk]'     => [
 		'list/:id' => ['enterdesk/index/list', ['method' => 'get'],['id'=>'\d+']],
 		'list' => ['enterdesk/index/list', ['method' => 'get']],

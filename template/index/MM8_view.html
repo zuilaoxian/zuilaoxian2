@@ -1,0 +1,23 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$title}{/block}
+{block name="type"}
+	<div class="list list-group-item">
+		<ul class="breadcrumb">
+			{volist name='typelist' id='vo' empty="暂时没有数据"}
+				<li> <a href="/{$path}/{$i}">{if condition="($vo.list == $list)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
+			{/volist}
+		</ul>
+	</div>
+	<ul class="breadcrumb">
+		<li><a href="/">网站首页</a></li>
+		<li><a href="/{$path}">mm8</a></li>
+		<li>{$title}</li>
+	</ul>
+{/block}
+{block name="main"}
+	<div class="content">
+		{volist name='lists' id='vo' empty="暂时没有数据"}
+		<img src="{$vo.img}" style="width:100%;max-width:400px;">
+		{/volist}
+	</div>
+{/block}

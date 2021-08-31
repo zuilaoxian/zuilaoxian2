@@ -47,7 +47,10 @@ function mc_curl($args = [])
     $curl->setHeader('X-Requested-With', 'XMLHttpRequest');
     $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
 	$curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
-	$curl->setOpt(CURLOPT_SSL_VERIFYHOST, false);
+    $curl->setOpt(CURLOPT_SSL_VERIFYHOST, false);
+    if(strpos($args['url'],'service.5sing.kugou.com')===false){
+        $curl->setOpt(CURLOPT_ENCODING, 'gzip');
+    }
     if ($args['proxy'] && MC_PROXY) {
         $curl->setOpt(CURLOPT_HTTPPROXYTUNNEL, 1);
         $curl->setOpt(CURLOPT_PROXY, MC_PROXY);
@@ -158,16 +161,16 @@ function mc_get_song_by_url($url)
 {
     preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_netease);
     preg_match('/(www|m)\.1ting\.com\/(player\/.*\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
-    preg_match('/music\.taihe\.com\/song\/(\d+)/i', $url, $match_baidu);
+    preg_match('/music\.taihe\.com\/song\/T(\d+)/i', $url, $match_baidu);
     preg_match('/(m|www)\.kugou\.com\/(play\/info\/|song\/\#hash\=)([a-z0-9]+)/i', $url, $match_kugou);
-    preg_match('/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
+    preg_match('/(www|m)\.kuwo\.cn\/(yinyue|my|play_detail|newh5app\/play_detail)\/(\d+)/i', $url, $match_kuwo);
     preg_match('/(y\.qq\.com\/n\/yqq\/song\/|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
     preg_match('/(www|m)\.xiami\.com\/song\/([a-zA-Z0-9]+)/i', $url, $match_xiami);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)yc(-|\/)(\d+)/i', $url, $match_5singyc);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)fc(-|\/)(\d+)/i', $url, $match_5singfc);
     preg_match('/music\.migu\.cn(\/(#|v3\/music))?\/song\/([a-zA-Z0-9]+)/i', $url, $match_migu);
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
-    preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
+    preg_match('/(www|m)\.qingting\.fm\/(channels|vchannels)\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
     preg_match('/(www|m)\.ximalaya\.com\/(\d+)\/sound\/(\d+)/i', $url, $match_ximalaya);
     preg_match('/kg\d?\.qq\.com\/(node\/)?play\?s=([a-zA-Z0-9_-]+)/i', $url, $match_kg_id);
     preg_match('/kg\d?\.qq\.com\/(node\/)?personal\?uid=([a-z0-9_-]+)/i', $url, $match_kg_uid);
@@ -178,13 +181,13 @@ function mc_get_song_by_url($url)
         $songid   = $match_1ting[3];
         $songtype = '1ting';
     } elseif (!empty($match_baidu)) {
-        $songid   = $match_baidu[1];
+        $songid   = 'T'.$match_baidu[1];
         $songtype = 'baidu';
     } elseif (!empty($match_kugou)) {
         $songid   = $match_kugou[3];
         $songtype = 'kugou';
     } elseif (!empty($match_kuwo)) {
-        $songid   = $match_kuwo[2];
+        $songid   = $match_kuwo[3];
         $songtype = 'kuwo';
     } elseif (!empty($match_qq)) {
         $songid   = $match_qq[2];
@@ -205,7 +208,7 @@ function mc_get_song_by_url($url)
         $songid   = $match_lizhi[3];
         $songtype = 'lizhi';
     } elseif (!empty($match_qingting)) {
-        $songid   = $match_qingting[2].'|'.$match_qingting[3];
+        $songid   = $match_qingting[3].'|'.$match_qingting[4];
         $songtype = 'qingting';
     } elseif (!empty($match_ximalaya)) {
         $songid   = $match_ximalaya[3];

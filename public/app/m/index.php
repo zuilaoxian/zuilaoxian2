@@ -13,7 +13,7 @@
 define('MC_CORE', true);
 
 // 定义版本
-define('MC_VERSION', '1.7.1');
+define('MC_VERSION', '1.7.4');
 
 // 核心文件目录
 define('MC_CORE_DIR', __DIR__ . '/core');
@@ -22,7 +22,7 @@ define('MC_CORE_DIR', __DIR__ . '/core');
 define('MC_TEMP_DIR', __DIR__ . '/template');
 
 // 调试模式，0为关闭，-1为打开
-define('MC_DEBUG', E_ERROR | E_WARNING | E_PARSE);
+define('MC_DEBUG', E_ERROR | E_PARSE);
 
 // Curl 代理地址，例如：define('MC_PROXY', 'someproxy.com:9999')
 define('MC_PROXY', false);
@@ -51,14 +51,12 @@ $music_type_list = array(
     'qq'         => 'ＱＱ',
     'kugou'      => '酷狗',
     'kuwo'       => '酷我',
-    'xiami'      => '虾米',
     'baidu'      => '百度',
     '1ting'      => '一听',
     'migu'       => '咪咕',
     'lizhi'      => '荔枝',
     'qingting'   => '蜻蜓',
     'ximalaya'   => '喜马拉雅',
-    //'kg'         => '全民K歌',
     '5singyc'    => '5sing原创',
     '5singfc'    => '5sing翻唱'
 );

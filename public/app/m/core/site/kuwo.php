@@ -50,34 +50,37 @@ class kuwo
         }
         $radio_song_url = [
             'method'        => 'GET',
-            'url'           => 'http://player.kuwo.cn/webmusic/st/getNewMuiseByRid',
-            'referer'       => 'http://player.kuwo.cn/webmusic/play',
+            'url'           => 'http://m.kuwo.cn/newh5/singles/songinfoandlrc',
+            'referer'       => 'http://www.kuwo.cn/play_detail/' . $songid,
             'proxy'         => false,
             'body'          => [
-                'rid'       => 'MUSIC_' . $songid
-            ]
+                'musicId' => $songid
+            ],
+            'user-agent'    => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ];
         $radio_result = mc_curl($radio_song_url);
         if (empty($radio_result)) {
             return;
         }
-        preg_match_all('/<([\w]+)>(.*?)<\/\\1>/i', $radio_result, $radio_json);
-        if (!empty($radio_json[1]) && !empty($radio_json[2])) {
-            $radio_data             = [];
-            foreach ($radio_json[1] as $key => $value) {
-                $radio_data[$value] = $radio_json[2][$key];
-            }
-            $radio_song_id          = $radio_data['music_id'];
-            $radio_lrc = self::getLyric($radio_song_id);
+        $radio_json = json_decode($radio_result, true);
+        $radio_data = $radio_json['data'];
+        if (!empty($radio_data)) {
+            $radio_lrclist = $radio_data['lrclist'];
+            $radio_lrc = $radio_lrclist ? self::generate_kuwo_lrc($radio_lrclist) : null;
+            $songinfo = $radio_data['songinfo'];
+            $radio_song_id = $songinfo['id'];
+            $radio_format = $songinfo['coopFormats'][0];
+            if(!$radio_format) $radio_format = '128kmp3';
             $radio_songs          = [
                 'type'   => 'kuwo',
-                'link'   => 'http://www.kuwo.cn/yinyue/' . $radio_song_id,
+                'link'   => 'http://www.kuwo.cn/play_detail/' . $radio_song_id,
                 'songid' => $radio_song_id,
-                'title'  => $radio_data['name'],
-                'author' => $radio_data['singer'],
+                'title'  => $songinfo['songName'],
+                'author' => $songinfo['artist'],
                 'lrc'    => $radio_lrc,
-                'url'    => 'http://' . $radio_data['mp3dl'] . '/resource/' . $radio_data['mp3path'],
-                'pic'    => $radio_data['artist_pic']
+                'url'    => self::getSongUrl($radio_song_id, $radio_format),
+                'format' => $radio_format,
+                'pic'    => $songinfo['pic']
             ];
             return $self ? $radio_songs : [$radio_songs];
         }else{
@@ -85,12 +88,34 @@ class kuwo
         }
     }
 
+    private static function getSongUrl($songid, $radio_format){
+        $radio_lrc_url = [
+            'method'        => 'GET',
+            'url'           => 'http://www.kuwo.cn/url',
+            'referer'       => 'http://www.kuwo.cn/play_detail/' . $songid,
+            'proxy'         => false,
+            'body'          => [
+                'format' => 'mp3',
+                'rid' => $songid,
+                'response' => 'url',
+                'type' => 'convert_url3',
+                'br' => $radio_format,
+                'from' => 'web',
+                't' => time().'000',
+                'httpsStatus' => '1'
+            ]
+        ];
+        $radio_result = mc_curl($radio_lrc_url);
+        $arr = json_decode($radio_result, true);
+        return $arr['url'];
+    }
+
     private static function getLyric($songid)
     {
         $radio_lrc_url = [
             'method'        => 'GET',
             'url'           => 'http://m.kuwo.cn/newh5/singles/songinfoandlrc',
-            'referer'       => 'http://m.kuwo.cn/yinyue/' . $songid,
+            'referer'       => 'http://www.kuwo.cn/play_detail/' . $songid,
             'proxy'         => false,
             'body'          => [
                 'musicId' => $songid

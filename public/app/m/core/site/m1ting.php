@@ -41,7 +41,7 @@ class m1ting
                 'author' => $value['singer_name'],
                 'lrc'    => $radio_lrc,
                 'url'    => 'https://h5.1ting.com/file?url=' . str_replace('.wma', '.mp3', $value['song_filepath']),
-                'pic'    => 'http://img.store.sogou.com/net/a/link?&appid=100520102&w=500&h=500&url=' . $value['album_cover']
+                'pic'    => 'https://' . $value['album_cover']
             ];
         }
         return $radio_songs;

@@ -41,7 +41,7 @@ class migu
             }
             $radio_songs[] = [
                 'type'   => 'migu',
-                'link'   => 'http://music.migu.cn/v3/music/song/'.$radio_song_id,
+                'link'   => 'https://music.migu.cn/v3/music/song/'.$radio_song_id,
                 'songid' => $radio_song_id,
                 'title'  => $value['songName'],
                 'author' => $value['singerName'],
@@ -78,15 +78,15 @@ class migu
         if (!empty($radio_data)) {
             $radio_song_id = $radio_data['copyrightId'];
             $radio_author  = implode(',', $radio_data['singerName']);
-            $radio_url  = self::getSongUrl($radio_song_id);
+            //$radio_url  = self::getSongUrl($radio_song_id);
             $radio_songs = [
                 'type'   => 'migu',
-                'link'   => 'http://music.migu.cn/v3/music/song/' . $radio_song_id,
+                'link'   => 'https://music.migu.cn/v3/music/song/' . $radio_song_id,
                 'songid' => $radio_song_id,
                 'title'  => $radio_data['songName'],
                 'author' => $radio_author,
                 'lrc'    => $radio_data['lyricLrc'],
-                'url'    => $radio_url ?: $radio_data['listenUrl'],
+                'url'    => $radio_data['listenUrl'],
                 'pic'    => $radio_data['picS']
             ];
             return $self ? $radio_songs : [$radio_songs];

@@ -11,53 +11,44 @@ class baidu
         if (empty($query)) {
             return;
         }
+		$body = ['word'=>$query, 'timestamp'=>time(), 'appid'=>'16073360', 'type'=>'1'];
+		$body['sign'] = self::createSign($body);
         $radio_search_url = [
             'method'         => 'GET',
-            'url'            => 'http://musicapi.qianqian.com/v1/restserver/ting',
-            'referer'        => 'http://music.taihe.com/',
+            'url'            => 'https://music.taihe.com/v1/search',
+            'referer'        => 'https://music.taihe.com/',
             'proxy'          => false,
-            'body'           => [
-                'method'    => 'baidu.ting.search.common',
-                'query'     => $query,
-                'format'    => 'json',
-                'page_no'   => $page,
-                'page_size' => 10
-            ]
+            'body'           => $body
         ];
         $radio_result = mc_curl($radio_search_url);
         if (empty($radio_result)) {
             return;
         }
-        $radio_songid = [];
+        $radio_songs = [];
         $radio_data = json_decode($radio_result, true);
-        if (empty($radio_data['song_list'])) {
+        if (empty($radio_data['data']['typeTrack'])) {
             return;
         }
-        foreach ($radio_data['song_list'] as $val) {
-            $radio_songid[] = $val['song_id'];
+        foreach ($radio_data['data']['typeTrack'] as $val) {
+			$radio_song = self::getSong($val['TSID'], true);
+            if(is_array($radio_song)) $radio_songs[] = $radio_song;
         }
-        return self::getSong($radio_songid, true);
+        return $radio_songs;
     }
 
-    public static function getSong($songid, $multi = false)
+    public static function getSong($songid, $self = false)
     {
         if (empty($songid)) {
             return;
         }
-        if ($multi) {
-            if (!is_array($songid)) {
-                return;
-            }
-            $songid = implode(',', $songid);
-        }
+		$body = ['TSID'=>$songid, 'timestamp'=>time(), 'from'=>'web', 's_protocol'=>'1', 'appid'=>'16073360'];
+		$body['sign'] = self::createSign($body);
         $radio_song_url = [
             'method'        => 'GET',
-            'url'           => 'http://music.taihe.com/data/music/links',
-            'referer'       => 'music.taihe.com/song/' . $songid,
+            'url'           => 'https://music.taihe.com/v1/song/tracklink',
+            'referer'       => 'https://music.taihe.com/song/' . $songid,
             'proxy'         => false,
-            'body'          => [
-                'songIds'   => $songid
-            ]
+            'body'          => $body
         ];
         $radio_result = mc_curl($radio_song_url);
         if (empty($radio_result)) {
@@ -65,33 +56,29 @@ class baidu
         }
         $radio_songs = [];
         $radio_json             = json_decode($radio_result, true);
-        $radio_data             = $radio_json['data']['songList'];
-        if (!empty($radio_data)) {
-            foreach ($radio_data as $value) {
-                $radio_song_id  = $value['songId'];
-                if ($value['lrcLink']) {
-                    $radio_lrc  = mc_curl(['url'=>$value['lrcLink']]);
+        $radio_data             = $radio_json['data'];
+        if ($radio_json['state']==true && !empty($radio_data)) {
+			$radio_song_id  = $radio_data['TSID'];
+			if ($radio_data['lyric']) {
+				$radio_lrc  = mc_curl(['url'=>$radio_data['lyric']]);
+			}
+            $authors = [];
+            if(isset($radio_data['artist'])){
+                foreach($radio_data['artist'] as $author){
+                    $authors[] = $author['name'];
                 }
-                $radio_songs[]  = [
-                    'type'   => 'baidu',
-                    'link'   => 'http://music.taihe.com/song/' . $radio_song_id,
-                    'songid' => $radio_song_id,
-                    'title'  => $value['songName'],
-                    'author' => $value['artistName'],
-                    'lrc'    => $radio_lrc,
-                    'url'    => str_replace(
-                        [
-                            'yinyueshiting.baidu.com',
-                            'zhangmenshiting.baidu.com',
-                            'zhangmenshiting.qianqian.com'
-                        ],
-                        'gss0.bdstatic.com/y0s1hSulBw92lNKgpU_Z2jR7b2w6buu',
-                        $value['songLink']
-                    ),
-                    'pic'    => $value['songPicBig']
-                ];
             }
-            return $radio_songs;
+			$radio_songs = [
+				'type'   => 'baidu',
+				'link'   => 'https://music.taihe.com/song/' . $radio_song_id,
+				'songid' => $radio_song_id,
+				'title'  => $radio_data['title'],
+				'author' => implode(',', $authors),
+				'lrc'    => $radio_lrc,
+				'url'    => $radio_data['path'] ?? $radio_data['trail_audio_info']['path'],
+				'pic'    => $radio_data['pic']
+			];
+            return $self ? $radio_songs : [$radio_songs];
         }else{
             return;
         }
@@ -114,4 +101,16 @@ class baidu
         $arr = json_decode($radio_result, true);
         return isset($arr['lrcContent']) ? $arr['lrcContent'] : null;
     }
+
+	private static function createSign($param){
+		$secret = '0b50b02fd0d73a9c4c8c3a781c30845f';
+		ksort($param);
+		$str = '';
+		foreach ($param as $k => $v) {
+			$str .= $k . "=" . $v . "&";
+		}
+		$str = substr($str, 0, -1);
+		$sign = md5($str . $secret);
+		return $sign;
+	}
 }

@@ -171,20 +171,10 @@ class netease
     // 加密网易云音乐 api 参数 APP接口
     private static function encode_netease_data($data)
     {
-        $_key     = '7246674226682325323F5E6544673A51';
-        $data     = json_encode($data);
-        if (function_exists('openssl_encrypt')) {
-            $data = openssl_encrypt($data, 'aes-128-ecb', pack('H*', $_key));
-        } else {
-            $_pad = 16 - (strlen($data) % 16);
-            $data = base64_encode(mcrypt_encrypt(
-                MCRYPT_RIJNDAEL_128,
-                hex2bin($_key),
-                $data.str_repeat(chr($_pad), $_pad),
-                MCRYPT_MODE_ECB
-            ));
-        }
-        $data     = strtoupper(bin2hex(base64_decode($data)));
+        $_key = 'rFgB&h#%2?^eDg:Q';
+        $data = json_encode($data);
+        $data = openssl_encrypt($data, 'aes-128-ecb', $_key);
+        $data = strtoupper(bin2hex(base64_decode($data)));
         return ['eparams' => $data];
     }
 

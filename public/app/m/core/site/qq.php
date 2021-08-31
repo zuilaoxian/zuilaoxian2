@@ -13,8 +13,8 @@ class qq
         }
         $radio_search_url = [
             'method'         => 'GET',
-            'url'            => 'http://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',
-            'referer'        => 'http://m.y.qq.com',
+            'url'            => 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',
+            'referer'        => 'https://m.y.qq.com',
             'proxy'          => false,
             'body'           => [
                 'w'          => $query,
@@ -53,13 +53,13 @@ class qq
             $radio_album_id      = $value['albummid'];
             $radio_songs[]       = [
                 'type'   => 'qq',
-                'link'   => 'http://y.qq.com/n/yqq/song/' . $radio_song_id . '.html',
+                'link'   => 'https://y.qq.com/n/yqq/song/' . $radio_song_id . '.html',
                 'songid' => $radio_song_id,
                 'title'  => $value['songname'],
                 'author' => $radio_author,
                 'lrc'    => $radio_lrc,
                 'url'    => $radio_music,
-                'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000' . $radio_album_id . '.jpg'
+                'pic'    => 'https://y.gtimg.cn/music/photo_new/T002R300x300M000' . $radio_album_id . '.jpg'
             ];
             $i++;
         }
@@ -81,8 +81,8 @@ class qq
         }
         $radio_song_url = [
             'method'        => 'GET',
-            'url'           => 'http://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg',
-            'referer'       => 'http://m.y.qq.com',
+            'url'           => 'https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg',
+            'referer'       => 'https://m.y.qq.com',
             'proxy'         => false,
             'body'          => [
                 'songmid'   => $songids,
@@ -121,13 +121,13 @@ class qq
                 $radio_album_id      = $value['album']['mid'];
                 $radio_songs[]       = [
                     'type'   => 'qq',
-                    'link'   => 'http://y.qq.com/n/yqq/song/' . $radio_song_id . '.html',
+                    'link'   => 'https://y.qq.com/n/yqq/song/' . $radio_song_id . '.html',
                     'songid' => $radio_song_id,
                     'title'  => $value['title'],
                     'author' => $radio_author,
                     'lrc'    => $radio_lrc,
                     'url'    => $radio_music,
-                    'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000' . $radio_album_id . '.jpg'
+                    'pic'    => 'https://y.gtimg.cn/music/photo_new/T002R300x300M000' . $radio_album_id . '.jpg'
                 ];
             }
             return $radio_songs;
@@ -155,7 +155,7 @@ class qq
             'proxy'      => false,
             'body'       => ['data'=>json_encode($rdata)]
         ]), true);
-        $server_url = $data['req']['data']['sip'][0];
+        $server_url = $data['req_0']['data']['sip'][0];
         $radio_url = [];
         if ($multi) {
             foreach($songid as $k=>$v){
@@ -171,8 +171,8 @@ class qq
     {
         $radio_lrc_url = [
             'method'        => 'GET',
-            'url'           => 'http://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg',
-            'referer'       => 'http://m.y.qq.com',
+            'url'           => 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg',
+            'referer'       => 'https://m.y.qq.com',
             'proxy'         => false,
             'body'          => [
                 'songmid'   => $songid,

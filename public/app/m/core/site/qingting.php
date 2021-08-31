@@ -13,15 +13,15 @@ class qingting
         }
         $radio_search_url = [
             'method'         => 'GET',
-            'url'            => 'http://i.qingting.fm/wapi/search',
+            'url'            => 'http://search.qingting.fm/v3/search',
             'referer'        => 'http://www.qingting.fm',
             'proxy'          => false,
             'body'           => [
+                'categoryid' => 0,
                 'k'          => $query,
                 'page'       => $page,
                 'pagesize'   => 10,
-                'include'    => 'program_ondemand',
-                'groups'     => 'program_ondemand'
+                'include'    => 'program_ondemand'
             ]
         ];
         $radio_result = mc_curl($radio_search_url);
@@ -33,7 +33,7 @@ class qingting
         if (empty($radio_data['data']) || empty($radio_data['data']['data'])) {
             return;
         }
-        foreach ($radio_data['data']['data'][0]['doclist']['docs'] as $value) {
+        foreach ($radio_data['data']['data']['docs'] as $value) {
             $radio_songs[]    = [
                 'type'   => 'qingting',
                 'link'   => 'http://www.qingting.fm/channels/' . $value['parent_id'] . '/programs/' . $value['id'],

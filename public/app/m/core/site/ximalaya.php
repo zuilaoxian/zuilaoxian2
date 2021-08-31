@@ -13,15 +13,17 @@ class ximalaya
         }
         $radio_search_url = [
             'method'         => 'GET',
-            'url'            => 'http://search.ximalaya.com/front/v1',
+            'url'            => 'http://www.ximalaya.com/revision/search/main?',
             'referer'        => 'http://www.ximalaya.com',
             'proxy'          => false,
             'body'           => [
                 'kw'         => $query,
-                'core'       => 'all',
+                'core'       => 'track',
                 'page'       => $page,
                 'rows'       => 10,
-                'is_paid'    => false
+                'condition'  => 'relation',
+                'device'     => 'iPhone',
+                'paidFilter' => 'true'
             ]
         ];
         $radio_result = mc_curl($radio_search_url);
@@ -30,10 +32,10 @@ class ximalaya
         }
         $radio_songs = [];
         $radio_data = json_decode($radio_result, true);
-        if (empty($radio_data['track']) || empty($radio_data['track']['docs'])) {
+        if (empty($radio_data['data']['track']) || empty($radio_data['data']['track']['docs'])) {
             return;
         }
-        foreach ($radio_data['track']['docs'] as $val) {
+        foreach ($radio_data['data']['track']['docs'] as $val) {
             if (!$val['is_paid']) { // 过滤付费的
                 $radio_song = self::getSong($val['id'], true);
                 if(is_array($radio_song)) $radio_songs[] = $radio_song;
@@ -71,7 +73,7 @@ class ximalaya
             }
             $radio_songs = [
                 'type'   => 'ximalaya',
-                'link'   => 'http://www.ximalaya.com/' . $radio_data['uid'] . '/sound/' . $radio_data['trackId'],
+                'link'   => 'https://www.ximalaya.com/' . $radio_data['uid'] . '/sound/' . $radio_data['trackId'],
                 'songid' => $radio_data['trackId'],
                 'title'  => $radio_data['title'],
                 'author' => $radio_user['nickname'],
