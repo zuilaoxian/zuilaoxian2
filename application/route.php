@@ -89,10 +89,10 @@ return [
 		'' => ['index/MM8/index'],
 	],
     '[yuyan]'     => [
-		':id' => ['index/yuyan/index', ['method' => 'get'],['id'=>'\d+']],
-		'search' => ['index/yuyan/search', ['method' => 'get']],
-		'view/:id' => ['index/yuyan/view', ['method' => 'get'],['id'=>'\d+']],
-		'' => ['index/yuyan/index'],
+		':id' => ['index/YuYan/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['index/YuYan/search', ['method' => 'get']],
+		'view/:id' => ['index/YuYan/view', ['method' => 'get'],['id'=>'\d+']],
+		'' => ['index/YuYan/index'],
 	],
     '[enterdesk]'     => [
 		'list/:id' => ['index/EnterDesk/list', ['method' => 'get'],['id'=>'\d+']],

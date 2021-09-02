@@ -2,7 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
-class Yuyan extends Controller
+class YuYan extends Controller
 {
     public function typelist()
     {
@@ -19,12 +19,12 @@ class Yuyan extends Controller
 		$this->assign('list', $this->typelist());
 		$this->assign('articles', $data);
 		
-		return $this->fetch('index/yuyan',['title'=>$this->typelist()[$id],'path'=>'yuyan','type'=>$id]);
+		return $this->fetch('index/YuYan',['title'=>$this->typelist()[$id],'path'=>'yuyan','type'=>$id]);
     }
     public function view($id=1){
 		$data=db::table('yu_yan')->where('id',$id)->find();
 		$this->assign('list', $this->typelist());
-		return $this->fetch('index/yuyan_view',['title'=>$data['title'],'content'=>$data['content'],'path'=>'yuyan','type'=>$data['type']]);
+		return $this->fetch('index/YuYan_view',['title'=>$data['title'],'content'=>$data['content'],'path'=>'yuyan','type'=>$data['type']]);
     }
     public function search()
     {
@@ -32,6 +32,6 @@ class Yuyan extends Controller
 		$data=db::table('yu_yan')->where('title','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
 		$this->assign('list', $this->typelist());
 		$this->assign('articles', $data);
-		return $this->fetch('index/yuyan',['title'=>$keyword.' 寓言故事搜索结果','path'=>'yuyan','type'=>0]);
+		return $this->fetch('index/YuYan',['title'=>$keyword.' 寓言故事搜索结果','path'=>'yuyan','type'=>0]);
     }
 }
