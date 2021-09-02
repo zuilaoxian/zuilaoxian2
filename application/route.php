@@ -39,7 +39,8 @@ return [
 		'view/:id' => ['rizhi/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
     '[shengjing]'     => [
-		':id' => ['shengjing/index/list', ['method' => 'get'],['id'=>'\d+']],
+		':id' => ['index/ShengJing/list', ['method' => 'get'],['id'=>'\d+']],
+		'' => ['index/ShengJing/index', ['method' => 'get']],
 	],
     '[QQhead]'     => [
 		'' => ['index/QQhead/index'],
@@ -56,8 +57,17 @@ return [
     '[Post]'     => [
 		'' => ['index/Post/index'],
 	],
+    '[ip]'     => [
+		'' => ['index/Ip/index'],
+	],
     '[KouZhao]'     => [
 		'' => ['index/KouZhao/index'],
+	],
+    '[hxw]'     => [
+		'' => ['index/index/hxw'],
+	],
+    '[wtp]'     => [
+		'' => ['index/index/wtp'],
 	],
     '[ZhaNan]'     => [
 		':list' => ['index/ZhaNan/index', ['method' => 'get'],['list'=>'\d+']],
@@ -69,6 +79,7 @@ return [
 		'book/:id' => ['index/xs/book', ['method' => 'get'],['id'=>'\d+']],
 		'view/:id1/:id2' => ['index/xs/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
 		'search' => ['index/xs/search', ['method' => 'get']],
+		'xslog' => ['index/xs/xslog', ['method' => 'get']],
 		'' => ['index/xs/index'],
 	],
     '[MM8]'     => [
@@ -77,62 +88,82 @@ return [
 		'view/:list1/:list2/:id' => ['index/MM8/view', ['method' => 'get'],['id'=>'\d+']],
 		'' => ['index/MM8/index'],
 	],
+    '[yuyan]'     => [
+		':id' => ['index/yuyan/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['index/yuyan/search', ['method' => 'get']],
+		'view/:id' => ['index/yuyan/view', ['method' => 'get'],['id'=>'\d+']],
+		'' => ['index/yuyan/index'],
+	],
     '[enterdesk]'     => [
-		'list/:id' => ['enterdesk/index/list', ['method' => 'get'],['id'=>'\d+']],
-		'list' => ['enterdesk/index/list', ['method' => 'get']],
-		'view/:id' => ['enterdesk/index/view', ['method' => 'get'],['id'=>'\d+']],
+		'list/:id' => ['index/EnterDesk/list', ['method' => 'get'],['id'=>'\d+']],
+		'list' => ['index/EnterDesk/list', ['method' => 'get']],
+		'view/:id' => ['index/EnterDesk/view', ['method' => 'get'],['id'=>'\d+']],
+		'' => ['index/EnterDesk/list', ['method' => 'get']],
 	],
     '[tupianzj]'     => [
-		'list/:id' => ['tupianzj/index/list', ['method' => 'get']],
-		'list' => ['tupianzj/index/list', ['method' => 'get']],
-		'view/:id' => ['tupianzj/index/view', ['method' => 'get'],['id'=>'\w+']],
+		'list/:id' => ['index/TuPianZj/list', ['method' => 'get']],
+		'list' => ['index/TuPianZj/list', ['method' => 'get']],
+		'view/:id' => ['index/TuPianZj/view', ['method' => 'get'],['id'=>'\w+']],
+		'' => ['index/TuPianZj/list', ['method' => 'get']],
 	],
     '[lssdjt]'     => [
 		'view/:id' => ['lssdjt/index/view', ['method' => 'get'],['id'=>'\d+']],
 		':m/:d' => ['lssdjt/index/index', ['method' => 'get'],['m'=>'\d+','d'=>'\d+']],
 	],
     '[duanxin]'     => [
-		':id' => ['duanxin/index/index', ['method' => 'get']],
-		'search' => ['duanxin/index/search', ['method' => 'get']],
+		':id' => ['index/DuanXin/index', ['method' => 'get']],
+		'search' => ['index/DuanXin/search', ['method' => 'get']],
+		'' => ['index/DuanXin/index', ['method' => 'get']],
 	],
     '[xhy]'     => [
-		'search' => ['xhy/index/search', ['method' => 'get']],
+		'search' => ['index/Xhy/index', ['method' => 'get']],
+		'' => ['index/Xhy/index', ['method' => 'get']],
 	],
     '[miyu]'     => [
-		'search' => ['miyu/index/search', ['method' => 'get']],
+		'search' => ['index/MiYu/index', ['method' => 'get']],
+		'' => ['index/MiYu/index', ['method' => 'get']],
 	],
     '[miyu2]'     => [
-		'search' => ['miyu2/index/search', ['method' => 'get']],
+		'search' => ['index/MiYu2/index', ['method' => 'get']],
+		'' => ['index/MiYu2/index', ['method' => 'get']],
 	],
     '[naojin]'     => [
-		'search' => ['naojin/index/search', ['method' => 'get']],
+		'search' => ['index/NaoJin/index', ['method' => 'get']],
+		'' => ['index/NaoJin/index', ['method' => 'get']],
 	],
     '[chengyu]'     => [
-		'search' => ['chengyu/index/search', ['method' => 'get']],
+		'search' => ['index/ChengYu/index', ['method' => 'get']],
+		'' => ['index/ChengYu/index', ['method' => 'get']],
 	],
     '[pianfang]'     => [
-		'search' => ['pianfang/index/search', ['method' => 'get']],
+		'search' => ['index/PianFang/index', ['method' => 'get']],
+		'' => ['index/PianFang/index', ['method' => 'get']],
 	],
     '[baike]'     => [
-		'search' => ['baike/index/search', ['method' => 'get']],
-		':id' => ['baike/index/index', ['method' => 'get'],['id' => '\d+']],
+		'search' => ['index/BaiKe/search', ['method' => 'get']],
+		':id' => ['index/BaiKe/index', ['method' => 'get'],['id' => '\d+']],
+		'' => ['index/BaiKe/index', ['method' => 'get']],
 	],
     '[mymj]'     => [
-		'search' => ['mymj/index/search', ['method' => 'get']],
+		'search' => ['index/MyMj/index', ['method' => 'get']],
+		'' => ['index/MyMj/index', ['method' => 'get']],
 	],
     '[raokouling]'     => [
-		'search' => ['raokouling/index/search', ['method' => 'get']],
+		'search' => ['index/RaoKouLing/index', ['method' => 'get']],
+		'' => ['index/RaoKouLing/index'],
 	],
     '[yanyu]'     => [
-		'search' => ['yanyu/index/search', ['method' => 'get']],
+		'search' => ['index/YanYu/index', ['method' => 'get']],
+		'' => ['index/YanYu/index', ['method' => 'get']],
 	],
     '[login]'     => [
-		'login' => ['login/index/login', ['method' => 'post']],
+		'login' => ['index/login/login', ['method' => 'post']],
+		'' => ['index/login/index', ['method' => 'get']],
 	],
     '[logout]'     => [
-		'' => ['login/index/logout', ['method' => 'get']],
+		'' => ['index/login/logout', ['method' => 'get']],
 	],
     '[reg]'     => [
-		'' => ['login/index/reg', ['method' => 'post']],
+		'' => ['index/login/reg', ['method' => 'post']],
 	],
 ];

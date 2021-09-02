@@ -1,7 +1,6 @@
 <?php
 namespace app\index\controller;
 use app\Common\controller\Base;
-use think\Db;
 class ZhaNan extends Base
 {
     public function type(){
@@ -14,31 +13,21 @@ class ZhaNan extends Base
 	}
     public function index($list='0')
     {
-		$view['path']='zhanan';
-		$view['title']=$this->type()[$list]['name'];
-		$view['type']=$list;
+		$view=['path'=>'zhanan','title'=>$this->type()[$list]['name'],'type'=>$list,'list'=>$this->type()];
 		if ($list==1 || $list==2){
 			$data=db('zhanan')->where('type',$list)->paginate(15);
 		}else{
 			$data=db('zhanan')->paginate(15);
 		}
-		$this->assign('list', $this->type($list));
-		$this->assign('view', $view);
-		$this->assign('articles', $data);
-		
-		return $this->fetch('index/ZhaNan');
+		$this->assign('lists', $data);
+		return $this->fetch('index/ZhaNan',$view);
     }
     public function search()
     {
 		$keyword=input('keyword')??'爱你';
-		
-		$view['title']=$keyword.' 渣男绿茶语录搜索结果';
-		$view['path']='zhanan';
-		$view['type']='';
+		$view=['path'=>'zhanan','title'=>$keyword.' 渣男绿茶语录搜索结果','type'=>'','list'=>$this->type()];
 		$data=db::table('zhanan')->where('content','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
-		$this->assign('list', $this->type());
-		$this->assign('view', $view);
-		$this->assign('articles', $data);
-		return $this->fetch('index/ZhaNan');
+		$this->assign('lists', $data);
+		return $this->fetch('index/ZhaNan',$view);
     }
 }

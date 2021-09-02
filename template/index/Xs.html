@@ -1,6 +1,10 @@
 {extend name="../template/base.html""/}
 {block name="title"}{$title}{/block}
 {block name="type"}
+	<ul class="breadcrumb">
+		<li>小说首页</li>
+		<li><a href="/xs/xslog/">浏览与阅读记录</a></li>
+	</ul>
 	<div class="list list-group-item">
 		<ul class="breadcrumb">
 			{volist name='type' id='vo' empty="暂时没有数据"}

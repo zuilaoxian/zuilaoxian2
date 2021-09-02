@@ -39,7 +39,11 @@ class Index extends Controller
 		$data=db::table('lizhi_content')->where('id',$id)->find();
 		$viewup=db::table('lizhi_content')->where('id','<',$id)->where('show','1')->order('id','desc')->find();
 		$viewdown=db::table('lizhi_content')->where('id','>',$id)->where('show','1')->find();
-		
+		$data['content']=replace($data['content'],[
+		['<img[^>]*>','',1],
+		['<b>分页：[\w\W]*?关于本站','',1],
+		['(www.lz13.cn)','',false],
+		]);
 		$data['title2']='励志故事';
 		$data['path']='lizhi';
 		$this->assign('list', $this->typelist());

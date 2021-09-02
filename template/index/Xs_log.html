@@ -1,0 +1,19 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$title}{/block}
+{block name="type"}
+	<ul class="breadcrumb">
+		<li><a href="/Xs">小说首页</a></li>
+		<li>{$title}</a></li>
+	</ul>
+	{$list->render()}
+	<div class="content">
+	{volist name='list' id='vo' key='k' empty='暂时没有数据'}
+	<li class="list-group-item">
+		<h4><a href="/{$path}/book/{$vo.bookid}">{$vo.bookname}</a></h4>
+		{$vo.viewid?'<p>上次阅读：<a href="/xs/view/'.$vo.bookid.'/'.$vo.viewid.'">'.$vo.viewname.'</a></p>':''}
+	</li>
+	{/volist}
+	{$list->render()}
+</div>
+
+{/block}

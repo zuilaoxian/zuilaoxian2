@@ -1,6 +1,10 @@
 {extend name="../template/base.html""/}
 {block name="title"}{$title}{/block}
 {block name="type"}
+		<ul class="breadcrumb">
+			<li><a href="/Xs">小说首页</a></li>
+			<li>{$title}</a></li>
+		</ul>
 	<div class="list list-group-item">
 		<form action="/{$path}/search" method="get" class="bs-example bs-example-form" role="form">
 			<div class="row">

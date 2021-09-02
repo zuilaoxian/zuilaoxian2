@@ -1,12 +1,16 @@
 {extend name="../template/base.html"" /}
-{block name="title"}{$view.title}{/block}
+{block name="title"}{$title}{/block}
 {block name="type"}
-	{$view.type}
-	{$pages->render()}
+	{$type}
+	{$lists->render()}
 	<div class="content">
-		{$view.content}
+	{volist name='lists' id='vo' empty='暂时没有数据'}
+		<li class="list-group-item">
+			<h4 data-clipboard-text="">{$vo.id}.{$vo.content}</h4>
+		</li>
+	{/volist}
 	</div>
-	{$pages->render()}
+	{$lists->render()}
 {/block}
 {block name="other"}
 	{load href="/static/clipboard.js-2.0.8/dist/clipboard.min.js" /}

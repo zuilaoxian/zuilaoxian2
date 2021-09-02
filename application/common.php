@@ -56,7 +56,7 @@ function getIp(){
 //使用正则时注意转义
 function replace($str,$strarr){
 	foreach($strarr as $v){
-		$str=$v[2]?preg_replace('/'.$v[0].'/is',$v[1],$str):str_replace($v[0],$v[1],$str);
+		$str=$v[2]?preg_replace('/'.$v[0].'/i',$v[1],$str):str_replace($v[0],$v[1],$str);
 	}
 return $str;
 }

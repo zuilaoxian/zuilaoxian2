@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-use  app\Common\controller\Base;
+use app\Common\controller\Base;
 use QL\QueryList;
 use think\paginator\driver\Bootstrap;
 class Xs extends Base
@@ -11,7 +11,7 @@ class Xs extends Base
 		$url="https://www.9txs.org/library/0_{$id}_0_{$page}.html";
 		$datahtml = QueryList::get($url,null,[
 			'cache' => HuanPath.'/xs1/xs1book',
-			'cache_ttl' => 60*60*24*30
+			'cache_ttl' => 60*60*24
 			])
 			->getHtml();
 
@@ -111,9 +111,20 @@ class Xs extends Base
 			$list[]=['id'=>$row,'title'=>$data2['title'][$i]];
 		}
 		$this->assign('list', $list);
-		
 		echo $this->fetch('index/Xs_book',['title'=>$data['book'],'path'=>'Xs','book'=>$id,'zuozhe'=>$data['zuozhe']]);
 		fastcgi_finish_request();
+		if (USER){
+			$xslog=db('xs1_log')->where('bookid',$id)->where('user',USER)->find();
+			if (!$xslog){
+				$xslogdata=[
+					'user'=>USER,
+					'bookid'=>$id,
+					'bookname'=>$data['book'],
+					'rdate'=>time(),
+				];
+				db('xs1_log')->insert($xslogdata);
+			}
+		}
 		foreach($list as $i => $row){
 			$url="https://www.9txs.org/book/{$id}/{$row['id']}.html";
 			$datahtml = QueryList::get($url,null,[
@@ -178,8 +189,31 @@ class Xs extends Base
 		}
 		$pager.="</ul></li>";
 		echo $this->fetch('index/Xs_view',['booktitle'=>$data['book'],'title'=>$data['title'],'path'=>'Xs','book'=>$id1,'view'=>$id2,'pager'=>$pager,'content'=>$content]);
-		
+
 		fastcgi_finish_request();
+		if (USER){
+			$xslog=db('xs1_log')->where('bookid',$id1)->where('user',USER)->find();
+			if (!$xslog){
+				$xslogdata=[
+					'user'=>USER,
+					'bookid'=>$id1,
+					'bookname'=>$data['book'],
+					'viewid'=>$id2,
+					'viewname'=>$data['title'],
+					'rdate'=>time(),
+				];
+				db('xs1_log')->insert($xslogdata);
+			}else{
+				$xslogdata=[
+					'bookid'=>$id1,
+					'viewid'=>$id2,
+					'viewname'=>$data['title'],
+					'rdate'=>time(),
+				];
+				db('xs1_log')->where('bookid', $id1)->where('user',USER)->update($xslogdata);
+			}
+		}
+		
 		if ($down){
 			$url2="https://www.9txs.org/book/{$id1}/{$down}.html";
 			$datahtml2 = QueryList::get($url2,null,[
@@ -208,7 +242,7 @@ class Xs extends Base
 				'searchkey'=>$keyword
 				],[
 				'cache' => HuanPath.'/xs1/xs1search',
-				'cache_ttl' => 60*60*48
+				'cache_ttl' => 60*60*12
 				])
 				->getHtml();
 		}
@@ -260,4 +294,14 @@ class Xs extends Base
 			sleep(7);
 		}
     }
+    public function xslog()
+    {
+		$this->islogin();
+		$data=db('xs1_log')
+			->where('user',USER)
+			->order('rdate','desc')
+			->paginate(15);
+		$this->assign('list', $data);
+		return $this->fetch('index/Xs_log',['title'=>'浏览与阅读记录','path'=>'Xs']);
+	}
 }
