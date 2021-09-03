@@ -56,7 +56,7 @@ class Xs extends Base
 
 		$p = Bootstrap::make($data, 50, $page, $pagecount*50, false, [
 			'var_page' => 'page',
-			'path'     => url('/Xs/'),//这里根据需要修改url
+			'path'     => url('/Xs/'.$id),//这里根据需要修改url
 			'query'    => [],
 			'fragment' => '',
 		]);
@@ -96,7 +96,7 @@ class Xs extends Base
 		$rules=array(
 			"book"=>array('h1','text'),
 			"zuozhe"=>array('h2>a','text'),
-			"leixing"=>array('p:eq(0)','text')
+			"leixing"=>array('p:eq(0)','text'),
 		);
 		$range='.headline';
 		$data = QueryList::html($datahtml)
@@ -121,6 +121,7 @@ class Xs extends Base
 					'bookid'=>$id,
 					'bookname'=>$data['book'],
 					'rdate'=>time(),
+					'path'=>'xs'
 				];
 				db('xs1_log')->insert($xslogdata);
 			}
@@ -201,6 +202,7 @@ class Xs extends Base
 					'viewid'=>$id2,
 					'viewname'=>$data['title'],
 					'rdate'=>time(),
+					'path'=>'xs'
 				];
 				db('xs1_log')->insert($xslogdata);
 			}else{
@@ -265,20 +267,21 @@ class Xs extends Base
 			}
 		);
 		$pagecount=QueryList::html($datahtml)->find('.page>a:last')->href;
-		$searchid=explode("/",$pagecount)[4];;
-		$pagecount=explode("/",$pagecount)[5];
-		$pagecount=explode(".",$pagecount)[0];
-		if ($pagecount<$page){$pagecount=$page;}
-		$p = Bootstrap::make($data, 30, $page, $pagecount*30, false, [
-			'var_page' => 'page',
-			'path'     => url('/Xs/search'),//这里根据需要修改url
-			'query'    => ['searchid'=>$searchid],
-			'fragment' => '',
-		]);
-		
-		$p->appends($_GET);
-		$this->assign('plistpage', $p->render());
-		
+		if ($pagecount){
+			$searchid=explode("/",$pagecount)[4];;
+			$pagecount=explode("/",$pagecount)[5];
+			$pagecount=explode(".",$pagecount)[0];
+			if ($pagecount<$page){$pagecount=$page;}
+			$p = Bootstrap::make($data, 30, $page, $pagecount*30, false, [
+				'var_page' => 'page',
+				'path'     => url('/Xs/search'),//这里根据需要修改url
+				'query'    => ['searchid'=>$searchid],
+				'fragment' => '',
+			]);
+			
+			$p->appends($_GET);
+			$this->assign('plistpage', $p->render());
+		}
 		$this->assign('list', $data);
 		echo $this->fetch('index/Xs_search',['title'=>$keyword.' 搜索结果','path'=>'Xs']);
 		
@@ -303,5 +306,12 @@ class Xs extends Base
 			->paginate(15);
 		$this->assign('list', $data);
 		return $this->fetch('index/Xs_log',['title'=>'浏览与阅读记录','path'=>'Xs']);
+	}
+    public function xslogdel()
+    {
+		$this->islogin();
+		$id=input('post.id');
+		db('xs1_log')->where('id',$id)->delete();
+		return ['code'=>0,'data'=>'删除成功','msj'=>'删除记录成功'];
 	}
 }

@@ -80,7 +80,16 @@ return [
 		'view/:id1/:id2' => ['index/xs/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
 		'search' => ['index/xs/search', ['method' => 'get']],
 		'xslog' => ['index/xs/xslog', ['method' => 'get']],
+		'dellog' => ['index/xs/xslogdel', ['method' => 'post']],
 		'' => ['index/xs/index'],
+	],
+    '[Xs2]'     => [
+		':id' => ['index/xs2/index', ['method' => 'get'],['id'=>'\d+']],
+		'book/:id' => ['index/xs2/book', ['method' => 'get'],['id'=>'\d+']],
+		'view/:id1/:id2' => ['index/xs2/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
+		'search' => ['index/xs2/search', ['method' => 'get']],
+		'xslog' => ['index/xs2/xslog', ['method' => 'get']],
+		'' => ['index/xs2/index'],
 	],
     '[MM8]'     => [
 		':id' => ['index/MM8/index', ['method' => 'get'],['id'=>'\d+']],

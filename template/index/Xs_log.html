@@ -2,18 +2,45 @@
 {block name="title"}{$title}{/block}
 {block name="type"}
 	<ul class="breadcrumb">
-		<li><a href="/Xs">小说首页</a></li>
+		<li><a href="/{$path}">小说首页</a></li>
 		<li>{$title}</a></li>
 	</ul>
 	{$list->render()}
 	<div class="content">
 	{volist name='list' id='vo' key='k' empty='暂时没有数据'}
-	<li class="list-group-item">
-		<h4><a href="/{$path}/book/{$vo.bookid}">{$vo.bookname}</a></h4>
-		{$vo.viewid?'<p>上次阅读：<a href="/xs/view/'.$vo.bookid.'/'.$vo.viewid.'">'.$vo.viewname.'</a></p>':''}
+	<li class="list-group-item" id="{$vo.id}">
+		<span class="badge pull-right" id="{$vo.id}">删除</span>
+		<h4><a href="/{$vo.path}/book/{$vo.bookid}">{$vo.bookname}</a></h4>
+		{$vo.viewid?'<p>上次阅读：<a href="/'.$vo.path.'/view/'.$vo.bookid.'/'.$vo.viewid.'">'.$vo.viewname.'</a></p>':''}
 	</li>
 	{/volist}
 	{$list->render()}
 </div>
-
+	<script>
+	$(function () {
+		$(".badge").click(function(){
+			var id=$(this).attr('id');
+			layer.confirm('确定要删除吗?', {
+			  btn: ['确定','取消']
+			  ,shadeClose:true
+			  ,title:''
+			}, function(){
+				$.ajax({
+					url:'/xs/dellog',
+					type:'post',
+					timeout:'15000',
+					data:{
+						id:id
+					},
+					async:true,
+					dataType:'json',
+						success:function(data){
+							if (data.code==0) {layer.msg('删除成功', {time: 2000,anim:6})}
+							$('li#'+id).fadeOut();
+						}
+				})
+			})
+		})
+	})
+	</script>
 {/block}

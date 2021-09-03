@@ -2,7 +2,7 @@
 {block name="title"}{$title}{/block}
 {block name="type"}
 	<ul class="breadcrumb">
-		<li><a href="/Xs">小说首页</a></li>
+		<li><a href="/{$path}">小说首页</a></li>
 		<li>{$title}</li>
 	</ul>
 	<style>
@@ -24,7 +24,7 @@
 		</div>
 		<div class="media-body">
 			<h3 class="media-heading">{$title}</h3>({$zuozhe})
-			
+			<p>{$info??''}</p>
 		</div>
 	</div>
 	

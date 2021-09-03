@@ -2,7 +2,7 @@
 {block name="title"}{$title}{/block}
 {block name="type"}
 		<ul class="breadcrumb">
-			<li><a href="/Xs">小说首页</a></li>
+			<li><a href="/{$path}">小说首页</a></li>
 			<li>{$title}</a></li>
 		</ul>
 	<div class="list list-group-item">
@@ -21,12 +21,12 @@
 			</div>
 		</form>
 	</div>
-	{$plistpage}
+	{$plistpage??''}
 	<div class="content">
 	{volist name='list' id='vo' key='k' empty='暂时没有数据'}
 	<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$k:$k}.<a href="/{$path}/book/{$vo.id}"><big>{$vo.book}</big></a>(<small>{$vo.zuozhe}</small>)</li>
 	{/volist}
-	{$plistpage}
+	{$plistpage??''}
 </div>
 
 {/block}
