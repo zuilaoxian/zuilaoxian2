@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use \app\Common\controller\Base;
+use \think\Request;
 class MiYu extends Base
 {
     public function index(){
@@ -12,8 +13,9 @@ class MiYu extends Base
 			$view=['title'=>'谜语大全','path'=>'MiYu'];
 			$data=db('miyu')->paginate(15);
 		}
+		$request = Request::instance();
 		
 		$this->assign('lists', $data);
-		return $this->fetch('index/Xhy',$view);
+		return $request->isAjax()?$data:$this->fetch('index/Xhy',$view);
     }
 }

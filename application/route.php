@@ -15,27 +15,23 @@ return [
         'id' => '\d+',
     ],
     '[dwz]'     => [
-		'list/:id' => ['dwz/index/list', ['method' => 'get'],['id'=>'\d+']],
-		'list' => ['dwz/index/list', ['method' => 'get']],
-		'search' => ['dwz/index/list', ['method' => 'get']],		
+		':id' => ['dwz/index/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['dwz/index/index', ['method' => 'get']],		
 		'view/:id' => ['dwz/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
     '[ggs]'     => [
-		'list/:id' => ['ggs/index/list', ['method' => 'get'],['id'=>'\d+']],
-		'list' => ['ggs/index/list', ['method' => 'get']],
-		'search' => ['ggs/index/list', ['method' => 'get']],		
+		':id' => ['ggs/index/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['ggs/index/index', ['method' => 'get']],		
 		'view/:id' => ['ggs/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
     '[lizhi]'     => [
-		'list/:id' => ['lizhi/index/list', ['method' => 'get'],['id'=>'\d+']],
-		'list' => ['lizhi/index/list', ['method' => 'get']],
-		'search' => ['lizhi/index/list', ['method' => 'get']],		
+		':id' => ['lizhi/index/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['lizhi/index/index', ['method' => 'get']],		
 		'view/:id' => ['lizhi/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
     '[rizhi]'     => [
-		'list/:id' => ['rizhi/index/list', ['method' => 'get'],['id'=>'\d+']],
-		'list' => ['rizhi/index/list', ['method' => 'get']],
-		'search' => ['rizhi/index/search', ['method' => 'get']],		
+		':id' => ['rizhi/index/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['rizhi/index/index', ['method' => 'get']],		
 		'view/:id' => ['rizhi/index/view', ['method' => 'get'],['id'=>'\d+']],
 	],
     '[shengjing]'     => [
@@ -174,5 +170,14 @@ return [
 	],
     '[reg]'     => [
 		'' => ['index/login/reg', ['method' => 'post']],
+	],
+    '[user]'     => [
+		'' => ['index/User/index', ['method' => 'get']],
+	],
+    '[edit]'     => [
+		'' => ['index/User/edit', ['method' => 'get']],
+	],
+    '[edit2]'     => [
+		'' => ['index/User/edit2', ['method' => 'post']],
 	],
 ];

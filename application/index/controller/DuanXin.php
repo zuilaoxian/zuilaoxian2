@@ -101,7 +101,6 @@ class DuanXin extends Base
 				</div>
 			</div>
 		</div>
-		点击文字即可复制到剪切板
 	</li>';
     }
     public function index($id=''){

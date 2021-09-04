@@ -18,6 +18,7 @@ class Login extends Base
 		if ($login){
 			cookie("user",$username,86400*30);
 			cookie("usercode",md5($username.$password.'99as'),86400*30);
+			db('user')->where('username',$username)->update(['logintime'=>time()]);
 			$this->success('登录成功','/');
 		}else{
 			cookie("user",null);

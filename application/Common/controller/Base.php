@@ -4,6 +4,7 @@ use think\Controller;
 use think\Session;
 use think\Cookie;
 use think\Db;
+use think\Request;
 class Base extends Controller
 {
     protected function _initialize()
@@ -18,7 +19,7 @@ class Base extends Controller
 		if (empty(USER)){
 			$view=cookie($cookie)??0;
 			$view+=1;
-			cookie($cookie,$view);
+			cookie($cookie,$view,3600);
 			if ($num==0){
 				return $this->error('未登录,请登录后访问','/login/');
 			}elseif ($view>$num){

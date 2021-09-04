@@ -1,0 +1,51 @@
+{extend name="../template/base.html""/}
+{block name="title"}用户中心{/block}
+{block name="type"}
+<div class="content">
+	<li class="list-group-item">数字ID：{$data.id}</li>
+	<li class="list-group-item">用户名：{$data.username}</li>
+	<li class="list-group-item">邮箱：{$data.email}</li>
+	<li class="list-group-item">注册时间：{$data.regtime|date="Y-m-d h:i:s",###}</li>
+	<li class="list-group-item">上次登录：{$data.logintime|date="Y-m-d h:i:s",###}</li>
+	<div class="row">
+		<div class="col-md-6">
+		<button type="button" id="edit" class="btn btn-default btn-block" style="border-color: green;">编辑资料</button>
+		</div>
+		<div class="col-md-6">
+		<a href="/logout" type="button" id="logout" class="btn btn-default btn-block" style="border-color: red;">登出</a>
+		</div>
+	</div>
+</div>
+<script>
+$(function() {
+	$("#edit").click(function(){
+		$('.btn.btn-primary').show();
+		$.ajax({
+			url:'/edit',
+			type:'get',
+			timeout:'15000',
+			async:true,
+				success:function(data){
+					$('#myModalLabel').html('修改资料')
+					$('.modal-body').html(data)
+					$('#myModal').modal('show')
+				}
+		})
+	});
+	$('.btn.btn-primary').click(function(){
+		var data=$("form.edit").serialize();
+		$.ajax({
+			url:'/edit2',
+			type:'post',
+			data:data,
+			timeout:'15000',
+			async:false,
+				success:function(data){
+					{layer.msg(data, {time: 2000,anim:6})}
+				}
+		});
+		$('#myModal').modal('hide')
+	})
+});
+</script>
+{/block}

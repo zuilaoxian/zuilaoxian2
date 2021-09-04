@@ -26,7 +26,7 @@ class ZhaNan extends Base
     {
 		$keyword=input('keyword')??'爱你';
 		$view=['path'=>'zhanan','title'=>$keyword.' 渣男绿茶语录搜索结果','type'=>'','list'=>$this->type()];
-		$data=db::table('zhanan')->where('content','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
+		$data=db('zhanan')->where('content','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
 		$this->assign('lists', $data);
 		return $this->fetch('index/ZhaNan',$view);
     }
