@@ -24,7 +24,7 @@
 	<div class="content">
 		{volist name='lists' id='vo' empty='暂时没有数据'}
 			<li class="list-group-item">
-				<h4>{$i}.{$vo.chengyu}({$vo.pinyin})</h4>
+				<h4>{$Request.get.page?$Request.get.page*15-15+$i:$i}.{$vo.chengyu}({$vo.pinyin})</h4>
 				<p>典故：{$vo.diangu}</p>
 				{$vo.chuchu?'<p>出处：'.$vo.chuchu.'</p>':''}
 				{$vo.lizi?'<p>例子：'.$vo.lizi.'</p>':''}

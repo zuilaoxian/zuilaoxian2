@@ -38,7 +38,7 @@
 	{$articles->render()}
 	<div class="content">
 		{volist name='articles' id='vo' empty='暂时没有数据'}
-		<li class="list-group-item"><a href="/{$path}/view/{$vo.id}"><h4>{$vo.title}</h4></a></li>
+		<li class="list-group-item"><a href="/{$path}/view/{$vo.id}"><h4>{$Request.get.page?$Request.get.page*15-15+$i:$i}.{$vo.title}</h4></a></li>
 		{/volist}
 	</div>
 	{$articles->render()}

@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-use  app\Common\controller\Base;
+use app\Common\controller\Base;
 use think\Db;
 class Post extends Base
 {

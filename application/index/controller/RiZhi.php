@@ -1,7 +1,7 @@
 <?php
-namespace app\rizhi\controller;
+namespace app\index\controller;
 use app\Common\controller\Base;
-class Index extends Base
+class RiZhi extends Base
 {
     public function typelist()
     {
@@ -23,7 +23,7 @@ class Index extends Base
 		$this->assign('articles', $data);
 		$view['path']='rizhi';
 		$view['list']=$this->typelist();
-		return $this->fetch('rizhi_list',$view);
+		return $this->fetch('index/rizhi_list',$view);
     }
     public function view($id='1')
     {
@@ -43,6 +43,6 @@ class Index extends Base
 			}
 		}
 		$data['list']=$type2;
-		return $this->fetch('rizhi_view',$data);
+		return $this->fetch('index/rizhi_view',$data);
     }
 }

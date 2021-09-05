@@ -1,7 +1,7 @@
 <?php
-namespace app\lizhi\controller;
+namespace app\index\controller;
 use app\Common\controller\Base;
-class Index extends Base
+class LiZhi extends Base
 {
     public function typelist()
     {
@@ -23,7 +23,7 @@ class Index extends Base
 		$view['path']='lizhi';
 		$this->assign('list', $this->typelist());
 		$this->assign('article', $data);
-		return $this->fetch('dwz_list',$view);
+		return $this->fetch('index/dwz_list',$view);
     }
     public function view($id='1')
     {
@@ -39,6 +39,6 @@ class Index extends Base
 		$data['list']=$this->typelist();
 		$data['viewup']=$viewup;
 		$data['viewdown']=$viewdown;
-		return $this->fetch('dwz_view',$data);
+		return $this->fetch('index/dwz_view',$data);
     }
 }

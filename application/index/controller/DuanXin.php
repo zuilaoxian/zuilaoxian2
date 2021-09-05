@@ -104,21 +104,18 @@ class DuanXin extends Base
 	</li>';
     }
     public function index($id=''){
+		$keyword=input('keyword');
+		
+		$view=['type'=>$this->typelist(),'path'=>'duanxin'];
+		$view['title']='短信';
 		if ($id){
 			$data=db('duanxin_content')->where('type',$id)->paginate(15);
+		}elseif($keyword){
+			$data=db('duanxin_content')->where('content','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
+			$view['title']=$keyword.' 短信频道搜索结果';
 		}else{
 			$data=db('duanxin_content')->paginate(15);
 		}
-		
-		$view=['title'=>'短信','type'=>$this->typelist(),'path'=>'duanxin'];
-		$this->assign('lists', $data);
-		return $this->fetch('index/DuanXin',$view);
-    }
-    public function search()
-    {
-		$keyword=input('get.keyword')??'的';
-		$data=db('duanxin_content')->where('content','like','%'.$keyword.'%')->paginate(15,false,['query'=>['keyword'=>$keyword]]);
-		$view=['title'=>$keyword.' 短信频道搜索结果','type'=>$this->typelist(),'path'=>'duanxin'];
 		$this->assign('lists', $data);
 		return $this->fetch('index/DuanXin',$view);
     }

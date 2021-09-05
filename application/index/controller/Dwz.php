@@ -1,13 +1,13 @@
 <?php
-namespace app\dwz\controller;
+namespace app\index\controller;
 use app\Common\controller\Base;
-class Index extends Base
+class Dwz extends Base
 {
     public function typelist()
     {
 		return db('dwz_type')->select();
 	}
-    public function index($id='')
+    public function Index($id='')
     {
 		$keyword = input('keyword');
 		if ($id){
@@ -23,9 +23,9 @@ class Index extends Base
 		$view['path']='dwz';
 		$this->assign('list', $this->typelist());
 		$this->assign('article', $data);
-		return $this->fetch('dwz_list',$view);
+		return $this->fetch('index/dwz_list',$view);
     }
-    public function view($id='1')
+    public function View($id='1')
     {
 		$data=db('dwz_content')->where('id',$id)->where('show','1')->find();
 		$viewup=db('dwz_content')->where('id','<',$id)->where('show','1')->order('id','desc')->find();
@@ -34,6 +34,6 @@ class Index extends Base
 		$data['list']=$this->typelist();
 		$data['viewup']=$viewup;
 		$data['viewdown']=$viewdown;
-		return $this->fetch('dwz_view',$data);
+		return $this->fetch('index/dwz_view',$data);
     }
 }

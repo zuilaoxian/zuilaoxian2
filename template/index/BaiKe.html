@@ -39,7 +39,7 @@
 	<div class="content">
 		{volist name='lists' id='vo' empty='暂时没有数据'}
 		<li class="list-group-item">
-		<h4>{$vo.tmxh}.{$vo.tmnr}</h4>
+		<h4>{$Request.get.page?$Request.get.page*15-15+$i:$i}.{$vo.tmnr}</h4>
 		<p id="{$vo.tmxh}">
 			<span id="daan">1、{$vo.tmda1}</span>
 			<span id="daan">2、{$vo.tmda2}</span>
