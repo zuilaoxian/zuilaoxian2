@@ -25,4 +25,12 @@ class Index extends Controller
 		];
 		return $text?json_decode($curl->get($url,$header)):$this->fetch('index/hxw');
     }
+    public function wallpaper()
+    {
+		return $this->fetch('index/wallpaper');
+    }
+    public function cat()
+    {
+		return $this->fetch('index/cat');
+    }
 }

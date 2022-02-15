@@ -1,0 +1,18 @@
+{extend name="../template/base.html""/}
+{block name="title"}电脑壁纸{/block}
+{block name="main"}
+    <!--滚动加载插件-->
+    <script type="text/javascript" src="/app/wallpaper/js/jquery.lazyload.min.js"></script>
+    <!--全屏滚动插件-->
+    <script type="text/javascript" src="/app/wallpaper/js/jquery.onepage-scroll.min.js"></script>
+    <!--页面核心js文件-->
+    <script type="text/javascript" src="/app/wallpaper/js/wallpaper.js"></script>
+    <link rel="stylesheet" href="/app/wallpaper/css/wallpaper.css">
+
+<div id="tags">
+	<li onclick="loadData('360new', true);changeTitle(this)">最新壁纸</li>
+</div>
+<div class="jigsaw" id="walBox"></div>
+<a id="toolBall" target="_blank" href="javascript:void(0);" class="uptoTop"></a>
+<div id="loadmore">壁纸加载中……</div>
+{/block}

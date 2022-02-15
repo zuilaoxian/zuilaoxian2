@@ -1,0 +1,19 @@
+﻿{extend name="../template/base.html""/}
+{block name="title"}围住小猫{/block}
+{block name="main"}
+{load href="/static/js/phaser.min.js" /}
+{load href="/static/js/catch-the-cat.js" /}
+<div id="catch-the-cat" class="list-group-item"></div>
+<script>
+    window.game = new CatchTheCatGame({
+        w: 11,
+        h: 11,
+        r: 12,
+        backgroundColor: 0xeeeeee,
+        parent: 'catch-the-cat',
+        statusBarAlign: 'center',
+        credit: 'github.com/ganlvtech'
+    });
+</script>
+{/block}
+

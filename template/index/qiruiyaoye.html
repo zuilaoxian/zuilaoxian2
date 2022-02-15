@@ -1,0 +1,28 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$title}{/block}
+{block name="type"}
+	<div class="list list-group-item">
+		<ul class="breadcrumb">
+			{volist name='types' id='vo' empty="暂时没有数据"}
+				<li> <a href="/qiruiyaoye/{$vo.id}">{if condition="($vo.id == $type)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
+			{/volist}
+		</ul>
+	</div>
+{/block}
+{block name="main"}
+	<div class="content">
+		{volist name='lists' id='vo' empty="暂时没有数据"}
+		<div class="media">
+			<div class="media-left">
+				<img src="{$vo.img}" class="media-object" style="width:130px">
+			</div>
+			<div class="media-body media-middle">
+				<a href="/qiruiyaoye/book/{$vo.id}">
+					<h4 class="media-heading">{$vo.title}</h4>
+				</a>
+			</div>
+		</div>
+		{/volist}
+	</div>
+	{$plistpage}
+{/block}

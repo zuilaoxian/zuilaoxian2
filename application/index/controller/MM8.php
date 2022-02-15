@@ -41,6 +41,7 @@ class MM8 extends Base
 		->range($range)
 		->queryData(
 			function($x){
+				$x['img']=stripos($x['img'],'ttp')!=''?$x['img']:'http://'.$x['img'];
 				$x['list1']=explode('/',$x['id'])[3];
 				$x['list2']=explode('/',$x['id'])[4];
 				$x['list2']=explode('.',$x['list2'])[0];
@@ -49,7 +50,6 @@ class MM8 extends Base
 				return $x;
 			}
 		);
-
 		$pagecount = QueryList::html($datahtml)->find('.last>a')->attr('data-page');
 		$p = Bootstrap::make($data, 20, $page, 20*$pagecount, false, [
 			'var_page' => 'page',

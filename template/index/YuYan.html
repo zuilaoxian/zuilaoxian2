@@ -43,18 +43,3 @@
 	</div>
 	{$articles->render()}
 {/block}
-{block name="other"}
- <script>
-;!function(){
-	$("button").click(function (){
-		//$(this).next().fadeIn();
-		var daan=$(this).next().text().trim().split('');
-		var id=$(this).prev().attr("id");
-		for (i=0;i<daan.length;i++){
-			if (daan[i]==1) $("#"+id+">#daan").eq(i).css("border","solid 1px #ff0000")
-		}
-	})
-}();
-</script>
-{/block}
-{block name="footer"}{/block}

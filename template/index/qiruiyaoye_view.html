@@ -1,0 +1,23 @@
+{extend name="../template/base.html""/}
+{block name="title"}{$title}{/block}
+{block name="type"}
+	<ul class="breadcrumb">
+		<li><a href="/qiruiyaoye">首页</a></li>
+		<li><a href="/qiruiyaoye/book/{$bookid}">{$title}</a></li>
+	</ul>
+	<h3 class="title list-group-item">{$title}</h3>
+	{$up?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$up.'">上一章</a>':''}
+	{$down?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$down.'">下一章</a>':''}
+	<style>
+	.content img{max-width:100%}
+	</style>
+	<div class="content list-group-item">
+	{volist name='lists' id='vo' empty='暂时没有数据'}
+	<img src="{$vo.img}">
+	{/volist}
+	</div>
+	<div class="list-group-item">
+	{$up?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$up.'">上一章</a>':''}
+	{$down?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$down.'">下一章</a>':''}
+	</div>
+{/block}

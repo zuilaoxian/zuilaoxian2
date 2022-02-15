@@ -1,0 +1,56 @@
+{extend name="../template/base.html""/}
+{block name="title"}图片二维码识别{/block}
+{block name="main"}
+        <script src="https://cozmo.github.io/jsQR/jsQR.js"></script>
+		<div class="list-group-item">
+			<h3>选择图片</h3>
+			<input type="file" accept="image/x-png,image/gif,image/jpeg,image/bmp" id="pictureChange"/>
+            <div id="result"></div>
+        </div>
+		
+    <script type="text/javascript">
+        $("body").append('<canvas id="qrcanvas" style="display:none;"></canvas>')
+        $("#pictureChange").change(function (e) {
+            var file = e.target.files[0];
+            if(window.FileReader) {
+                var fr = new FileReader();
+                fr.readAsDataURL(file);
+                fr.onloadend = function(e) {
+                    var base64Data = e.target.result;
+                    base64ToqR(base64Data)
+					layer.msg('loading...',{time:1500,anim:6});
+                }
+            }
+        })
+        function base64ToqR(data) {
+            var c = document.getElementById("qrcanvas");
+            var ctx = c.getContext("2d");
+    
+            var img = new Image();
+            img.src = data;
+            img.onload = function() {
+                $("#qrcanvas").attr("width",img.width)
+                $("#qrcanvas").attr("height",img.height)
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+                var imageData = ctx.getImageData(0, 0, img.width, img.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "dontInvert",
+                });
+				$('#myModal').modal('show')
+				$('#myModalLabel').html('识别结果')
+                if(code){
+					layer.closeAll();
+                    //showCode(code.data)
+					$('.modal-body').html(code.data+'&nbsp;<a id="Copy" text="'+code.data+'" class="btn btn-info" data-loading-text="已复制">复制</a>')
+					clickcopy();
+					loadingtext();
+                }else{
+					$('.modal-body').html('识别错误')
+                }
+            };
+        }
+		$('#myModal').on('hide.bs.modal', function () {
+			$('#pictureChange').val("");
+		})
+    </script>
+{/block}

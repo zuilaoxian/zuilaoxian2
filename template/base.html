@@ -12,74 +12,102 @@
 	<script src="//cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	{load href="/static/layer/layer.js" /}
 	{load href="/static/js/my.js" /}
+	{load href="/static/clipboard.js-2.0.8/dist/clipboard.min.js" /}
 	<style>
 		.container{max-width:950px;}
 		.modal-body img{max-width:100%;}
-		.pagination input {
-			height: 100%;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			width: 3em;
-		}
+		.pagination input{height:100%;border:1px solid #ccc;border-radius:5px;width:3.3em;}
+		#Copy{font-size:12px;padding:2px 5px;}
+		body{padding-top:70px}
+		.navbar-default {background: rgba(255,255,255,0.65);
 	</style>
+	<div id="copytext" style="height:0;opacity:0"></div>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
+	
 		<div class="navbar-header">
+			<a class="navbar-brand" href="/" style="color:#79dc79"><span class="glyphicon glyphicon-home"></span>Home</a>
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-          <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span>Home</a>
 		</div>
+		
         <div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle" id="jsontools" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
-					{if condition="$Think.cookie.user"}
-					<span class="glyphicon glyphicon-user"></span> {$Think.cookie.user}</a>
+					{if condition="$Think.cookie.user"}<span class="glyphicon glyphicon-user"></span> {$Think.cookie.user}</a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li><a href="/user"><span class="glyphicon glyphicon-user"></span> 用户中心</a></li>
+						<li class="divider"></li>
 						<li><a href="/logout" id="logout"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
-					</ul>
-					{else /}
-					<span class="caret"></span> <span class="glyphicon glyphicon-user"></span> 游客</a>
+					</ul>{else /}<span class="caret"></span> <span class="glyphicon glyphicon-user"></span> 游客</a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 						<li><a href="/login/"><span class="glyphicon glyphicon-user"></span> 登录</a></li>
-					</ul>
-					{/if}
-					
-					
+					</ul>{/if}
+
 				</li>
 			</ul>
 		</div>
+		
 	</div>
 </nav>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">模态框标题</h4>
-			</div>
-			<div class="modal-body">在这里添加一些文本</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<!--button type="button" class="btn btn-primary"></button-->
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
-</head>
-<body>
+
 <div class="container container-small">
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">模态框标题</h4>
+				</div>
+				<div class="modal-body">在这里添加一些文本</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" style="display:none;">提交更改</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
 	{block name="type"}{/block}
 	{block name="search"}{/block}
 	{block name="main"}{/block}
 	{block name="other"}{/block}
 	{block name="footer"}{/block}
+
+	<script>
+		//复制文本
+		var clickcopy=function(){
+			$('a#Copy').click(function(){
+				$('#copytext').html($(this).attr('text'));
+			})
+		}
+		clickcopy();
+		var clipboard = new ClipboardJS('#Copy', {
+			target: function () {
+				return document.querySelector('#copytext');
+			},
+		});
+		clipboard.on('success', function (e) {
+			console.log(e.text);
+			$('#keyword').val(e.text);
+			e.trigger.setAttribute("class",'btn btn-success');
+			setTimeout(function(){
+				e.trigger.setAttribute("class",'btn btn-info');
+			},1000);
+		});
+		clipboard.on('error', function (e) {
+			console.log(e);
+		});
+	</script>
 	<div class="well well-sm"><span id="times" class="glyphicon glyphicon-time">{$Think.const.MYTIME}</span></div>
 </div>
+
 </body>
 </html>

@@ -1,42 +1,29 @@
 {extend name="../template/base.html""/}
 {block name="title"}转换火星文{/block}
 {block name="main"}
+
+
+    <label class="radio-inline">
+        <input type="radio" name="ctype" id="ctype" value="1" checked> 火星文
+    </label>
+    <label class="radio-inline">
+        <input type="radio" name="ctype" id="ctype"  value="2"> 简-繁
+    </label>
+    <label class="radio-inline">
+        <input type="radio" name="ctype" id="ctype"  value="3"> 繁-简
+    </label>
 	
+	<hr>
 	<div class="input-group">
 		<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
 		<input id="input_data" type="text" class="form-control" value="我爱你">
 		<span class="input-group-btn" id="btnr"><button id="trash" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span></button></span>
 	</div>
+	
+	<hr>
 	<button id="hxw" class="btn btn-default btn-block" data-loading-text="Loading..."><span class="glyphicon glyphicon-hand-up"></span> 立刻转换
 	</button>
+	
 	<hr>
-	<script>
-	$(function () {
-		$("#hxw").click(function(){
-			text=$('#input_data').val();
-			if (!text){
-				layer.tips("不能为空", "#input_data", {tips: 1});
-				return;
-			}
-			$.ajax({
-				url:'/hxw',
-				type:'get',
-				data:{
-					text:text
-				},
-				timeout:'15000',
-				async:true,
-				dataType:'json',
-					success:function(data){
-						layer.closeAll();
-						$('#myModalLabel').html(data.instr)
-						$('.modal-body').html(data.outstr)
-						$("#myModal").modal("show")
-					}
-			})
-		})
-
-
-		})
-	</script>
+	{load href="/static/js/fontconvert.js" /}
 {/block}

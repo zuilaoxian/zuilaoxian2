@@ -29,7 +29,7 @@
 	{$plistpage}
 	<div class="content">
 	{volist name='list' id='vo' empty='暂时没有数据'}
-	<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$i:$i}.<a href="/{$path}/book/{$vo.id}"><big>{$vo.book}</big></a>(<small>{$vo.zuozhe}</small>)</li>
+	<li class="list-group-item">{$Request.get.page?$Request.get.page*15-15+$i:$i}.<a href="/{$path}/book/{$vo.id}"><big>{$vo.book}</big></a>{$vo.zuozhe?'(<small>'.$vo.zuozhe.'</small>)':''}</li>
 	{/volist}
 	{$plistpage}
 </div>

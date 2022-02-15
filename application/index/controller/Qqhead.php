@@ -25,12 +25,14 @@ class QQhead extends Base
 			}else{
 				$nickname = $data[$id][6];
 				$html="QQ昵称：{$nickname}<br/>";
-				$html.="<img src=\"//q.qlogo.cn/headimg_dl?bs=qq&dst_uin={$id}&spec=100\"><br/>";
-				$html.="<img src=\"//q.qlogo.cn/headimg_dl?bs=qq&dst_uin={$id}&spec=0\" style=\"max-width:100%\"><br/>";
+				$html.="<img src=\"//q.qlogo.cn/headimg_dl?bs=qq&dst_uin={$id}&spec=100\">";
+				$html.='<a id="Copy" text="https://q.qlogo.cn/headimg_dl?bs=qq&dst_uin='.$id.'&spec=0" class="btn btn-info" data-loading-text="已复制">复制图片链接</a><br/>';
+				$html.="<img src=\"//q.qlogo.cn/headimg_dl?bs=qq&dst_uin={$id}&spec=0\" style=\"max-width:100%\">";
 				$str=array(
 					"code"=>1,
 					"data"=>$nickname.$id,
-					"msg"=>$html
+					"msg"=>$html,
+					"url"=>'https://q.qlogo.cn/headimg_dl?bs=qq&dst_uin='.$id.'&spec=0',
 				);
 			}
 			return $str;

@@ -1,9 +1,9 @@
 {extend name="../template/base.html""/}
-{block name="title"}{$title}{/block}
+{block name="title"}{$book}{/block}
 {block name="type"}
 	<ul class="breadcrumb">
 		<li><a href="/{$path}">小说首页</a></li>
-		<li>{$title}</li>
+		<li>{$book}</li>
 	</ul>
 	<style>
 		.content .list-group-item{
@@ -20,17 +20,17 @@
 	</style>
 	<div class="media list-group-item">
 		<div class="media-left media-middle">
-			<!--img src="" class="media-object" style="width:120px"-->
+			{$img?'<img src="'.$img.'" class="media-object" style="width:120px">':''}
 		</div>
 		<div class="media-body">
-			<h3 class="media-heading">{$title}</h3>({$zuozhe})
+			<h3 class="media-heading">{$book}</h3>({$zuozhe})
 			<p>{$info??''}</p>
 		</div>
 	</div>
 	
 	<div class="content">
-	{volist name='list' id='vo' key='k' empty='暂时没有数据'}
-	<li class="list-group-item"><a href="/{$path}/view/{$book}/{$vo.id}">{$vo.title}</a></li>
+	{volist name='list' id='vo' empty='暂时没有数据'}
+	<li class="list-group-item"><a href="/{$path}/view/{$bookid}/{$vo.id}">{$vo.title}</a></li>
 	{/volist}
 </div>
 

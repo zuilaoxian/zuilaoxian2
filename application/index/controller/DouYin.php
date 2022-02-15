@@ -42,7 +42,7 @@ class DouYin extends Base
 						'title' => $name,
 						'img' => $img,
 						'url' => $video,
-						'html'=> '<a href="'.$video.'">'.$name.'</a><hr/><div style="text-align: center;"><video id="video" poster="'.$img.'" src="'.$video.'" controls="controls" style="max-width:100%; height:100%;max-height:400px; object-fit: fill">your browser does not support the video tag</video></div>',
+						'html'=> '<a href="'.$video.'">'.$name.'</a><a id="Copy" text="'.$video.'" class="btn btn-info" data-loading-text="已复制">复制链接</a><hr/><div style="text-align: center;"><video id="video" poster="'.$img.'" src="'.$video.'" controls="controls" style="max-width:100%; height:100%;max-height:400px; object-fit: fill">your browser does not support the video tag</video></div>',
 						'music_title' => $music_title,
 						'music_author' => $music_author,
 						'music_img' => $music_img,

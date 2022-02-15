@@ -42,6 +42,9 @@ return [
     '[QQhead]'     => [
 		'/' => ['index/QQhead/index'],
 	],
+    '[wallpaper]'     => [
+		'/' => ['index/index/wallpaper'],
+	],
     '[DouYin]'     => [
 		'/' => ['index/DouYin/index'],
 	],
@@ -67,8 +70,8 @@ return [
 		'/' => ['index/index/wtp'],
 	],
     '[ZhaNan]'     => [
-		':list' => ['index/ZhaNan/index', ['method' => 'get'],['list'=>'\d+']],
-		'search' => ['index/ZhaNan/search', ['method' => 'get']],
+		':id' => ['index/ZhaNan/index', ['method' => 'get'],['id'=>'\d+']],
+		'search' => ['index/ZhaNan/index', ['method' => 'get']],
 		'/' => ['index/ZhaNan/index', ['method' => 'get']],
 	],
     '[Xs]'     => [
@@ -87,6 +90,22 @@ return [
 		'search' => ['index/xs2/search', ['method' => 'get']],
 		'xslog' => ['index/xs2/xslog', ['method' => 'get']],
 		'/' => ['index/xs2/index', ['method' => 'get']],
+	],
+    '[Xs3]'     => [
+		':id' => ['index/xs3/index', ['method' => 'get'],['id'=>'\d+']],
+		'book/:id' => ['index/xs3/book', ['method' => 'get'],['id'=>'\d+']],
+		'view/:id1/:id2' => ['index/xs3/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
+		'search' => ['index/xs3/search', ['method' => 'get']],
+		'xslog' => ['index/xs3/xslog', ['method' => 'get']],
+		'/' => ['index/xs3/index', ['method' => 'get']],
+	],
+    '[Xs4]'     => [
+		':id' => ['index/Xs4/index', ['method' => 'get'],['id'=>'\d+']],
+		'book/:id' => ['index/Xs4/book', ['method' => 'get'],['id'=>'\d+']],
+		'view/:id1/:id2' => ['index/Xs4/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
+		'search' => ['index/Xs4/search', ['method' => 'get']],
+		'xslog' => ['index/Xs4/xslog', ['method' => 'get']],
+		'/' => ['index/Xs4/index', ['method' => 'get']],
 	],
     '[MM8]'     => [
 		':id' => ['index/MM8/index', ['method' => 'get'],['id'=>'\d+']],
@@ -181,5 +200,16 @@ return [
 	],
     '[edit2]'     => [
 		'/' => ['index/User/edit2', ['method' => 'post']],
+	],
+    '[qiruiyaoye]'     => [
+		'book/:id' => ['qiruiyaoye/index/book', ['method' => 'get']],
+		'view/:bookid/:viewid' => ['qiruiyaoye/index/view', ['method' => 'get']],
+		':id' => ['qiruiyaoye/index/index', ['method' => 'get']],
+	],
+    '[cat]'     => [
+		'/' => ['index/index/cat', ['method' => 'get']],
+	],
+    '[QrDecode]'     => [
+		'/' => ['index/QrDecode/index', ['method' => 'get']],
 	],
 ];

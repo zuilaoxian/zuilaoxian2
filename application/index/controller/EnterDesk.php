@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use \app\Common\controller\Base;
 use QL\QueryList;
+use Curl\Curl;
 use think\paginator\driver\Bootstrap;
 class EnterDesk extends Base
 {
@@ -21,21 +22,45 @@ class EnterDesk extends Base
 		$this->redirect('/enterdesk/list/1',302);
 	}
     public function list($id=1){
+		$curl=new Curl();
+		$curl->setFollowLocation(true);
+		$curl->setOpt(CURLOPT_SSL_VERIFYPEER,false);
+		$curl->setOpt(CURLOPT_SSL_VERIFYHOST,false);
+		$curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36');
+		$curl->setReferer('https://mm.enterdesk.com/');
+		$curl->get('https://mm.enterdesk.com/');
+		$cookie=$curl->getResponseCookies();
+		$curl->setCookie('token','');
+		$curl->setCookie('secret','');
+		$curl->setCookie('t',$cookie['token']);
+		$curl->setCookie('r',''.($cookie['secret']-100).'');
+
+		
+		
+		
+		
 		$page=input('page')??1;
 		$list=array_column($this->type(), 'list')[$id-1];
 		$url="https://mm.enterdesk.com/{$list}/{$page}.html";
+		$datahtml=$curl->get($url);
+		
 		$rules=array(
 			"id"=>array('','href'),
 			"title"=>array('img','title'),
 			"img"=>array('img','src')	
 		);
 		$range='.egeli_pic_m>.egeli_pic_li>dl>dd>a';
+		/*
 		$datahtml = QueryList::get($url,null,[
 			'cache' => HuanPath.'enterdesk',
-			'cache_ttl' => 60*60*12
+			'cache_ttl' => 60*60*12,
+			'headers' => [
+                        'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',
+                        'referer'    => 'https://mm.enterdesk.com/'
+                        ]
 			])
 			->getHtml();
-
+		*/
 		$data1 = QueryList::html($datahtml)
 		->rules($rules)
 		->range($range)
@@ -74,18 +99,34 @@ class EnterDesk extends Base
 	
 	
     public function view($id=''){
-		$huan_path=$huan_path=realpath('.').'/app/temp/enterdesk';
+		$curl=new Curl();
+		$curl->setFollowLocation(true);
+		$curl->setOpt(CURLOPT_SSL_VERIFYPEER,false);
+		$curl->setOpt(CURLOPT_SSL_VERIFYHOST,false);
+		$curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36');
+		$curl->setReferer('https://mm.enterdesk.com/');
+		$curl->get('https://mm.enterdesk.com/');
+		$cookie=$curl->getResponseCookies();
+		$curl->setCookie('token','');
+		$curl->setCookie('secret','');
+		$curl->setCookie('t',$cookie['token']);
+		$curl->setCookie('r',''.($cookie['secret']-100).'');
+		
+		
 		$url="https://mm.enterdesk.com/bizhi/{$id}.html";
 		$rules=array(
 			"img"=>array('a','src')	
 		);
 		$range='.swiper-wrapper>.swiper-slide';
+		$datahtml=$curl->get($url);
+		/*
 		$datahtml = QueryList::get($url,null,[
 			'cache' => HuanPath.'enterdesk',
 			'cache_ttl' => 60*60*12
 			])
 			->getHtml();
-
+		*/
+		
 		$data1 = QueryList::html($datahtml)
 		->rules($rules)
 		->range($range)

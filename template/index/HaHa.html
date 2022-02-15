@@ -1,7 +1,7 @@
 {extend name="../template/base.html""/}
 {block name="title"}小视频{/block}
 {block name="type"}
-	{$plistpage??$list->render()}
+	{$list->render()}
 	<div class="content">
 		{volist name='list' id='vo' empty="暂时没有数据"}
 		<div class="media">
@@ -16,11 +16,11 @@
 		</div>
 		{/volist}
 	</div>
-	{$plistpage??$list->render()}
+	{$list->render()}
 	<script>
 		$('.media-body a').click(function (event) {
-			event.preventDefault();
 			layer.msg('加载中，请稍后',{time: 1200,anim:6});
+			event.preventDefault();
 			$.ajax({
 				url:'/HaHa/',
 				type:'post',
@@ -28,13 +28,15 @@
 					id:$(this).attr('id')
 					},
 				timeout:'15000',
-				async:true,
+				async:false,
 				dataType:'json',
 					success:function(data){
 						layer.closeAll();
 						$('#myModalLabel').html(data.title)
 						$('.modal-body').html(data.html)
 						$('#myModal').modal('show')
+						clickcopy();
+						loadingtext();
 					}
 			})
 		})

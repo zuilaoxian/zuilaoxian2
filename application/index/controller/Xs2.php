@@ -10,8 +10,9 @@ class Xs2 extends Base
 		$page = input('page') ? input('page') : 1;
 		$url="https://www.777zw.net/xiaoshuo{$id}/index{$page}.html";
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs2/xs2book',
-			'cache_ttl' => 60*60*24
+			'cache' => HuanPath.'/xs/xs2book',
+			'cache_ttl' => 60*60*24,
+			'timeout' => 20,
 			])
 			->getHtml();
 
@@ -45,7 +46,7 @@ class Xs2 extends Base
 			->removeHead()
 			->queryData(
 				function($x){
-					$x['id']=explode("/",$x['id'])[4];
+					$x['id']=explode("/",$x['id'])[2];
 					return $x;
 				});
 		/*获取总页数*/
@@ -74,10 +75,12 @@ class Xs2 extends Base
 		
 		fastcgi_finish_request();
 		foreach($data as $i => $row){
-			$url="https://www.9txs.org/book/".$row['id']."/";
+			$id2=substr($row['id'],0,strlen($row['id'])-3);
+			$url="https://www.777zw.net/{$id2}/".$row['id']."/";
 			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs2/xs2book',
-				'cache_ttl' => 60*60*12
+				'cache' =>  HuanPath.'/xs/xs2book',
+				'cache_ttl' => 60*60*12,
+				'timeout' => 20,
 				])
 				->getHtml();
 			$datahtml = NULL;
@@ -89,8 +92,9 @@ class Xs2 extends Base
 		$id2=substr($id,0,strlen($id)-3);
 		$url="https://www.777zw.net/{$id2}/{$id}/";
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs2/xs2book',
-			'cache_ttl' => 60*60*12
+			'cache' => HuanPath.'/xs/xs2book',
+			'cache_ttl' => 60*60*12,
+			'timeout' => 20,
 			])
 			->getHtml();
 
@@ -99,6 +103,10 @@ class Xs2 extends Base
 			"book"=>array('#info>h1','text'),
 			"zuozhe"=>array('#info>p:eq(0)','text'),
 			"info"=>array('#intro>p:eq(0)','text'),
+			"img"=>array('#fmimg>img','src','',function($x){
+				$x='https://www.777zw.net'.$x;
+				return $x;
+			}),
 		);
 		$range='';
 		$data = QueryList::html($datahtml)
@@ -110,12 +118,14 @@ class Xs2 extends Base
 		$datahtml2 = QueryList::html($datahtml)->encoding('UTF-8','GB2312')->removeHead()->find('#list')->html();
 		$pattern="/href=\"(?<id>[\w\W]*?).html\">(?<title>[\w\W]*?)<\/a>/i";
 		preg_match_all($pattern,$datahtml2,$data2);
-		$list='';
+		$list=[];
 		foreach($data2['id'] as $i => $row){
 			$list[]=['id'=>$row,'title'=>$data2['title'][$i]];
 		}
 		$this->assign('list', $list);
-		echo $this->fetch('index/Xs_book',['title'=>$data['book'],'path'=>'Xs2','book'=>$id,'zuozhe'=>$data['zuozhe'],'info'=>$data['info']]);
+		$data['path']='xs2';
+		$data['bookid']=$id;
+		echo $this->fetch('index/Xs_book',$data);
 		fastcgi_finish_request();
 		if (USER){
 			$xslog=db('xs1_log')->where('bookid',$id)->where('user',USER)->find();
@@ -133,8 +143,9 @@ class Xs2 extends Base
 		foreach($list as $i => $row){
 			$url="https://www.777zw.net/".substr($row['id'],0,strlen($row['id'])-3)."/{$row['id']}/";
 			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs2/xs2view',
-				'cache_ttl' => 60*60*10
+				'cache' => HuanPath.'/xs/xs2view',
+				'cache_ttl' => 60*60*10,
+				'timeout' => 20,
 				])
 				->getHtml();
 			$datahtml = NULL;
@@ -148,8 +159,9 @@ class Xs2 extends Base
     {
 		$url='https://www.777zw.net/'.substr($id1,0,strlen($id1)-3).'/'.$id1.'/'.$id2.'.html';
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs2/xs2view',
-			'cache_ttl' => 60*60*10
+			'cache' => HuanPath.'/xs/xs2view',
+			'cache_ttl' => 60*60*10,
+			'timeout' => 20,
 			])
 			->getHtml();
 		/*获取书本章节信息*/
@@ -221,8 +233,9 @@ class Xs2 extends Base
 		if ($down){
 			$url='https://www.777zw.net/'.substr($id1,0,strlen($id1)-3).'/'.$id1.'/'.$down.'.html';
 			$datahtml2 = QueryList::get($url2,null,[
-				'cache' => HuanPath.'/xs2/xs2view',
-				'cache_ttl' => 60*60*10
+				'cache' => HuanPath.'/xs/xs2view',
+				'cache_ttl' => 60*60*10,
+				'timeout' => 20,
 				])
 				->getHtml();
 		$datahtml2 = null ;
@@ -233,8 +246,9 @@ class Xs2 extends Base
 		$keyword=input('keyword');
 		$url="https://www.777zw.net/s/so.php?type=articlename&s=".$keyword;
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs2/xs2search',
-			'cache_ttl' => 60*60*12
+			'cache' => HuanPath.'/xs/xs2search',
+			'cache_ttl' => 60*60*12,
+			'timeout' => 20,
 			])
 			->getHtml();
 
@@ -260,10 +274,12 @@ class Xs2 extends Base
 		
 		fastcgi_finish_request();
 		foreach($data as $i => $row){
-			$url="https://www.9txs.org/book/".$row['id']."/";
+			$id2=substr($row['id'],0,strlen($row['id'])-3);
+			$url="https://www.777zw.net/{$id2}/".$row['id']."/";
 			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs2/xs2book',
-				'cache_ttl' => 60*60*12
+				'cache' =>  HuanPath.'/xs/xs2book',
+				'cache_ttl' => 60*60*12,
+				'timeout' => 20,
 				])
 				->getHtml();
 			$datahtml = NULL;

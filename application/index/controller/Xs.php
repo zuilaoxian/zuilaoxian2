@@ -10,8 +10,9 @@ class Xs extends Base
 		$page = input('page') ? input('page') : 1;
 		$url="https://www.9txs.org/library/0_{$id}_0_{$page}.html";
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs1/xs1book',
-			'cache_ttl' => 60*60*24
+			'cache' => HuanPath.'/xs/xs1book',
+			'cache_ttl' => 60*60*24,
+			'timeout' => 20,
 			])
 			->getHtml();
 
@@ -75,8 +76,9 @@ class Xs extends Base
 		foreach($data as $i => $row){
 			$url="https://www.9txs.org/book/".$row['id']."/";
 			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs1/xs1book',
-				'cache_ttl' => 60*60*12
+				'cache' =>  HuanPath.'/xs/xs1book',
+				'cache_ttl' => 60*60*12,
+				'timeout' => 20,
 				])
 				->getHtml();
 			$datahtml = NULL;
@@ -87,8 +89,9 @@ class Xs extends Base
     {
 		$url="https://www.9txs.org/book/{$id}/";
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs1/xs1book',
-			'cache_ttl' => 60*60*12
+			'cache' => HuanPath.'/xs/xs1book',
+			'cache_ttl' => 60*60*12,
+			'timeout' => 20,
 			])
 			->getHtml();
 
@@ -106,12 +109,14 @@ class Xs extends Base
 		$datahtml2 = QueryList::html($datahtml)->find('.read>dl:gt(0)>dd')->html();
 		$pattern="/href=\"\/book\/{$id}\/(?<id>[\w\W]*?).html\">(?<title>[\w\W]*?)<\/a>/i";
 		preg_match_all($pattern,$datahtml2,$data2);
-		$list='';
-		foreach($data2['id'] as $i => $row){
-			$list[]=['id'=>$row,'title'=>$data2['title'][$i]];
+		$list=[];
+		foreach($data2['id'] as $key => $row){
+			$list[]=['id'=>$row,'title'=>$data2['title'][$key]];
 		}
 		$this->assign('list', $list);
-		echo $this->fetch('index/Xs_book',['title'=>$data['book'],'path'=>'Xs','book'=>$id,'zuozhe'=>$data['zuozhe']]);
+		$data['path']='xs';
+		$data['bookid']=$id;
+		echo $this->fetch('index/Xs_book',$data);
 		fastcgi_finish_request();
 		if (USER){
 			$xslog=db('xs1_log')->where('bookid',$id)->where('user',USER)->find();
@@ -129,8 +134,9 @@ class Xs extends Base
 		foreach($list as $i => $row){
 			$url="https://www.9txs.org/book/{$id}/{$row['id']}.html";
 			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs1/xs1view',
-				'cache_ttl' => 60*60*10
+				'cache' => HuanPath.'/xs/xs1view',
+				'cache_ttl' => 60*60*10,
+				'timeout' => 20,
 				])
 				->getHtml();
 			$datahtml = NULL;
@@ -144,8 +150,9 @@ class Xs extends Base
     {
 		$url="https://www.9txs.org/book/{$id1}/{$id2}.html";
 		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs1/xs1view',
-			'cache_ttl' => 60*60*10
+			'cache' => HuanPath.'/xs/xs1view',
+			'cache_ttl' => 60*60*10,
+			'timeout' => 20,
 			])
 			->getHtml();
 		/*获取书本章节信息*/
@@ -219,8 +226,9 @@ class Xs extends Base
 		if ($down){
 			$url2="https://www.9txs.org/book/{$id1}/{$down}.html";
 			$datahtml2 = QueryList::get($url2,null,[
-				'cache' => HuanPath.'/xs1/xs1view',
-				'cache_ttl' => 60*60*10
+				'cache' => HuanPath.'/xs/xs1view',
+				'cache_ttl' => 60*60*10,
+				'timeout' => 20,
 				])
 				->getHtml();
 		$datahtml2 = null ;
@@ -234,8 +242,9 @@ class Xs extends Base
 		if ($searchid){
 			$url="https://so.9txs.org/www/{$searchid}/{$page}.html";
 			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs1/xs1search',
-				'cache_ttl' => 60*60*12
+				'cache' => HuanPath.'/xs/xs1search',
+				'cache_ttl' => 60*60*12,
+				'timeout' => 20,
 				])
 				->getHtml();
 		}else{
@@ -243,8 +252,9 @@ class Xs extends Base
 			$datahtml = QueryList::post($url,[
 				'searchkey'=>$keyword
 				],[
-				'cache' => HuanPath.'/xs1/xs1search',
-				'cache_ttl' => 60*60*12
+				'cache' => HuanPath.'/xs/xs1search',
+				'cache_ttl' => 60*60*12,
+				'timeout' => 20,
 				])
 				->getHtml();
 		}
@@ -289,8 +299,9 @@ class Xs extends Base
 		foreach($data as $i => $row){
 			$url="https://www.9txs.org/book/".$row['id']."/";
 			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs1/xs1book',
-				'cache_ttl' => 60*60*12
+				'cache' =>  HuanPath.'/xs/xs1book',
+				'cache_ttl' => 60*60*12,
+				'timeout' => 20,
 				])
 				->getHtml();
 			$datahtml = NULL;
