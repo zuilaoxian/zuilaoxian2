@@ -6,8 +6,10 @@
 		<li><a href="/qiruiyaoye/book/{$bookid}">{$title}</a></li>
 	</ul>
 	<h3 class="title list-group-item">{$title}</h3>
-	{$up?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$up.'">上一章</a>':''}
-	{$down?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$down.'">下一章</a>':''}
+	<div class="list-group-item">
+		{$up?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$up.'">上一章</a>':''}
+		{$down?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$down.'">下一章</a>':''}
+	</div>
 	<style>
 	.content img{max-width:100%}
 	</style>
@@ -17,7 +19,7 @@
 	{/volist}
 	</div>
 	<div class="list-group-item">
-	{$up?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$up.'">上一章</a>':''}
-	{$down?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$down.'">下一章</a>':''}
+		{$up?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$up.'">上一章</a>':''}
+		{$down?'<a href="/qiruiyaoye/view/'.$bookid.'/'.$down.'">下一章</a>':''}
 	</div>
 {/block}

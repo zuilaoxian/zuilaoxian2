@@ -33,7 +33,10 @@ class TuPianZj extends Base
 				'cache' => HuanPath.'tupianzj',
 				'cache_ttl' => 60*60*12
 				])
-				->getHtml();
+				->removeHead()
+				->encoding('UTF-8','GB2312')
+				->gethtml();
+		//$datahtml=iconv('GB2312','utf-8//IGNORE',$datahtml);
 		$datahtml = $ql->html($datahtml)
 					->absoluteUrl('https://www.tupianzj.com/')
 					->gethtml();
@@ -46,8 +49,6 @@ class TuPianZj extends Base
 		$data1 = QueryList::html($datahtml)
 			->rules($rules)
 			->range($range)
-			->encoding('UTF-8')
-			->removeHead()
 			->queryData();
 		$date100=cutstr($datahtml,'list_con_box\">','<div class=\"clearfix\">');
 		$data2=QueryList::html($datahtml)->find(".pageinfo>strong:eq(0)")->text();
@@ -82,6 +83,8 @@ class TuPianZj extends Base
 			'cache' => HuanPath.'tupianzj',
 			'cache_ttl' => 60*60*12
 			])
+		->removeHead()
+		->encoding('UTF-8','GB2312')
 		->getHtml();
 		$rules=array(
 			"img"=>array('#bigpic img','src'),
@@ -92,8 +95,6 @@ class TuPianZj extends Base
 		$data = QueryList::html($datahtml)
 			->rules($rules)
 			->range($range)
-			->encoding('UTF-8')
-			->removeHead()
 			->queryData();
 		$title=$data['title'];
 		$page=cutstr($data['pages'],'共','页');

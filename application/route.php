@@ -99,14 +99,6 @@ return [
 		'xslog' => ['index/xs3/xslog', ['method' => 'get']],
 		'/' => ['index/xs3/index', ['method' => 'get']],
 	],
-    '[Xs4]'     => [
-		':id' => ['index/Xs4/index', ['method' => 'get'],['id'=>'\d+']],
-		'book/:id' => ['index/Xs4/book', ['method' => 'get'],['id'=>'\d+']],
-		'view/:id1/:id2' => ['index/Xs4/view', ['method' => 'get'],['id1'=>'\d+','id2'=>'\d+']],
-		'search' => ['index/Xs4/search', ['method' => 'get']],
-		'xslog' => ['index/Xs4/xslog', ['method' => 'get']],
-		'/' => ['index/Xs4/index', ['method' => 'get']],
-	],
     '[MM8]'     => [
 		':id' => ['index/MM8/index', ['method' => 'get'],['id'=>'\d+']],
 		'book/:id' => ['index/MM8/book', ['method' => 'get'],['id'=>'\d+']],
@@ -202,9 +194,10 @@ return [
 		'/' => ['index/User/edit2', ['method' => 'post']],
 	],
     '[qiruiyaoye]'     => [
-		'book/:id' => ['qiruiyaoye/index/book', ['method' => 'get']],
-		'view/:bookid/:viewid' => ['qiruiyaoye/index/view', ['method' => 'get']],
-		':id' => ['qiruiyaoye/index/index', ['method' => 'get']],
+		'book/:id' => ['index/QiRuiYaoYe/book', ['method' => 'get']],
+		'view/:bookid/:viewid' => ['index/QiRuiYaoYe/view', ['method' => 'get']],
+		':id' => ['index/QiRuiYaoYe/index', ['method' => 'get']],
+		'/' => ['index/QiRuiYaoYe/index', ['method' => 'get']],
 	],
     '[cat]'     => [
 		'/' => ['index/index/cat', ['method' => 'get']],

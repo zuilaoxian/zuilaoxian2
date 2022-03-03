@@ -1,9 +1,9 @@
 <?php
-namespace app\qiruiyaoye\controller;
-use think\Controller;
+namespace app\index\controller;
+use app\Common\controller\Base;
 use QL\QueryList;
 use think\paginator\driver\Bootstrap;
-class Index extends Controller
+class QiRuiYaoYe extends Base
 {
     public function type($id=''){
 		$list=[
@@ -38,13 +38,7 @@ class Index extends Controller
     public function index($id=''){
 		$page = input('page') ? input('page') : 1;
 		$url=$id?"http://www.qiruiyaoye.cn/category/{$id}/page/{$page}.html":"http://www.qiruiyaoye.cn/category/page/{$page}.html";
-		
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'qiruiyaoye',
-			'cache_ttl' => 60*60*12
-			])
-			->getHtml();
-			
+		$datahtml = $this->gethtml($url);
 		$rules=array(
 			"id"=>array('.mh-item-detali a','href'),
 			"title"=>array('.mh-item-detali a','title'),
@@ -94,11 +88,7 @@ class Index extends Controller
     }
     public function book($id='1'){
 		$url="http://www.qiruiyaoye.cn/book/1/{$id}/";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'qiruiyaoye',
-			'cache_ttl' => 60*60*12
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 		//book信息
 		$rules=array(
 			"img"=>array('.cover>img','src'),
@@ -139,14 +129,10 @@ class Index extends Controller
     }
     public function view($bookid='1',$viewid='1'){
 		$url="http://www.qiruiyaoye.cn/chapter/{$bookid}/{$viewid}.html";
-		$datahtml = QueryList::get($url,null,[
-			'cache' =>  HuanPath.'qiruiyaoye',
-			'cache_ttl' => 60*60*12
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 		//
 		$rules=array(
-			"img"=>array('','src'),
+			"img"=>array('','data-original'),
 		);
 		$range='.comicpage img';
 		$data = QueryList::html($datahtml)

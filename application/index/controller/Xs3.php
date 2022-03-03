@@ -7,14 +7,9 @@ class Xs3 extends Base
 {
     public function index($id=1)
     {
-		$page = input('page') ? input('page') : 1;
+		$page = input('page')? input('page'):1;
 		$url="http://m.b5200.net/sort-{$id}-{$page}/";//biquge5200.net
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs3book',
-			'cache_ttl' => 60*60*24,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 
 		/*获取分类列表*/
 		$rules=array(
@@ -76,25 +71,15 @@ class Xs3 extends Base
 		fastcgi_finish_request();
 		foreach($data as $i => $row){
 			$url="http://www.b5200.net/0_".$row['id']."/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs/xs3book',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$datahtml = $this->gethtml($url);
 			sleep(7);
 		}
+		$datahtml = NULL;
     }
     public function book($id='')
     {
 		$url="http://www.b5200.net/0_{$id}/";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs3book',
-			'cache_ttl' => 60*60*12,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 
 		/*书本信息*/
 		$rules=array(
@@ -138,27 +123,16 @@ class Xs3 extends Base
 		}
 		foreach($list as $i => $row){
 			$url="http://www.b5200.net/0_".$id."/".$row['id'].".html";
-			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs/xs3view',
-				'cache_ttl' => 60*60*10,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$datahtml = $this->gethtml($url);
 			sleep(5);
-			if ($i>10) {
-				break;
-			}
+			if ($i>10) {break;}
 		}
+		$datahtml = NULL;
 	}
     public function view($id1='',$id2='')
     {
 		$url='http://www.b5200.net/0_'.$id1.'/'.$id2.'.html';
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs3view',
-			'cache_ttl' => 60*60*10
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 		/*获取书本章节信息*/
 		$rules=array(
 			"book"=>array('.con_top>a:eq(2)','text'),
@@ -228,12 +202,7 @@ class Xs3 extends Base
 		
 		if ($down){
 			$url='http://www.b5200.net/0_'.$id1.'/'.$down.'.html';
-			$datahtml2 = QueryList::get($url2,null,[
-				'cache' => HuanPath.'/xs/xs3view',
-				'cache_ttl' => 60*60*10,
-				'timeout' => 20,
-				])
-				->getHtml();
+			$datahtml = $this->gethtml($url);
 		$datahtml2 = null ;
 		}
     }
@@ -242,12 +211,7 @@ class Xs3 extends Base
 		$keyword=input('keyword');
 		$page = input('page') ? input('page') : 1;
 		$url='http://m.b5200.net/modules/article/waps.php?keyword='.$keyword.'&pn='.$page;
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs3search',
-			'cache_ttl' => 60*60*12,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 
 		/*获取书籍列表*/
 		$rules=array(
@@ -287,12 +251,7 @@ class Xs3 extends Base
 		fastcgi_finish_request();
 		foreach($data as $i => $row){
 			$url="http://www.b5200.net/0_".$row['id']."/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs/xs3book',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
+			$datahtml = $this->gethtml($url);
 			$datahtml = NULL;
 			sleep(7);
 		}

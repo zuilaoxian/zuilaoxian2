@@ -4,6 +4,8 @@ use think\Controller;
 use think\Session;
 use think\Cookie;
 use think\Db;
+use Cache\Adapter\Predis\PredisCachePool;
+use QL\QueryList;
 class Base extends Controller
 {
     protected function _initialize()
@@ -33,4 +35,19 @@ class Base extends Controller
 			}
 		}
     }
+	
+	protected function pool() {
+		$client = new \Predis\Client('tcp:/127.0.0.1:6379');
+		return new PredisCachePool($client);
+	}
+	protected function gethtml($url,$data=null,$way=null,$cachetime=null) {
+		$way=$way?'post':'get';
+		$cachetime=$cachetime??60*60*24;
+		return QueryList::$way($url,$data,[
+			'cache' => $this->pool(),
+			'cache_ttl' => $cachetime,
+			'timeout' => 30,
+			])
+			->getHtml();
+	}
 }

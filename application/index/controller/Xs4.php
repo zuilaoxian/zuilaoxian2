@@ -275,25 +275,28 @@ class Xs4 extends Base
 		$keyword=input('keyword');
 		$keyword=urldecode($keyword);
 		$page = input('page') ? input('page') : 1;
-		$url='http://m.bqg08.com/search.aspx?bookname='.urlencode(iconv('utf-8','GB2312//IGNORE',$keyword));
+		$url='http://www.bqg08.com/search.aspx?bookname='.urlencode(iconv('utf-8','GB2312//IGNORE',$keyword));
+		$cuid='cuid=www.bqg08.com_'.date('Y-m-d_H').':15:35:259_788';
+		$cuid='cuid=www.bqg08.com_2022-2-13_15:11:0:39_788';
 		$datahtml = QueryList::post($url,null,[
 			'cache' => HuanPath.'/xs/Xs4search',
 			'cache_ttl' => 60*60*12,
 			'timeout' => 20,
 			'headers'=>[
-					'Host' => ' m.bqg08.com',
-					'Referer' => 'http://m.bqg08.com/',
+					'Host' => ' www.bqg08.com',
+					'Referer' => 'http://www.bqg08.com/',
 					'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
+					'Cookie'    => $cuid,
 				]
 			])
 			->getHtml();
 		/*获取书籍列表*/
 		$rules=array(
-			"id"=>array('','href'),
-			"book"=>array('div:eq(0)','text'),
-			"zuozhe"=>array('div:eq(2)','text'),
+			"id"=>array('.s2>a','href'),
+			"book"=>array('.s2>a','text'),
+			"zuozhe"=>array('.s4','text'),
 		);
-		$range='.novelList > a';
+		$range='#newscontent li';
 		$data = QueryList::html($datahtml)
 			->rules($rules)
 			->range($range)

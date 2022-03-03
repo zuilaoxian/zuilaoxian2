@@ -9,12 +9,7 @@ class Xs2 extends Base
     {
 		$page = input('page') ? input('page') : 1;
 		$url="https://www.777zw.net/xiaoshuo{$id}/index{$page}.html";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs2book',
-			'cache_ttl' => 60*60*24,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 
 		/*获取分类列表*/
 		$rules=array(
@@ -47,6 +42,7 @@ class Xs2 extends Base
 			->queryData(
 				function($x){
 					$x['id']=explode("/",$x['id'])[2];
+					$x['zuozhe']=explode("/",$x['zuozhe'])[1];
 					return $x;
 				});
 		/*获取总页数*/
@@ -77,26 +73,16 @@ class Xs2 extends Base
 		foreach($data as $i => $row){
 			$id2=substr($row['id'],0,strlen($row['id'])-3);
 			$url="https://www.777zw.net/{$id2}/".$row['id']."/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs/xs2book',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$datahtml = $this->gethtml($url);
 			sleep(7);
 		}
+		$datahtml = NULL;
     }
     public function book($id='')
     {
 		$id2=substr($id,0,strlen($id)-3);
 		$url="https://www.777zw.net/{$id2}/{$id}/";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs2book',
-			'cache_ttl' => 60*60*12,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 
 		/*书本信息*/
 		$rules=array(
@@ -142,28 +128,17 @@ class Xs2 extends Base
 		}
 		foreach($list as $i => $row){
 			$url="https://www.777zw.net/".substr($row['id'],0,strlen($row['id'])-3)."/{$row['id']}/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs/xs2view',
-				'cache_ttl' => 60*60*10,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$datahtml = $this->gethtml($url);
+			if ($i>10) {break;}
 			sleep(5);
-			if ($i>10) {
-				break;
-			}
+			
 		}
+		$datahtml = NULL;
 	}
     public function view($id1='',$id2='')
     {
 		$url='https://www.777zw.net/'.substr($id1,0,strlen($id1)-3).'/'.$id1.'/'.$id2.'.html';
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs2view',
-			'cache_ttl' => 60*60*10,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 		/*获取书本章节信息*/
 		$rules=array(
 			"book"=>array('.con_top>a:eq(1)','text'),
@@ -232,26 +207,14 @@ class Xs2 extends Base
 		
 		if ($down){
 			$url='https://www.777zw.net/'.substr($id1,0,strlen($id1)-3).'/'.$id1.'/'.$down.'.html';
-			$datahtml2 = QueryList::get($url2,null,[
-				'cache' => HuanPath.'/xs/xs2view',
-				'cache_ttl' => 60*60*10,
-				'timeout' => 20,
-				])
-				->getHtml();
-		$datahtml2 = null ;
+			$datahtml = $this->gethtml($url);
 		}
     }
     public function search()
     {
 		$keyword=input('keyword');
 		$url="https://www.777zw.net/s/so.php?type=articlename&s=".$keyword;
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs2search',
-			'cache_ttl' => 60*60*12,
-			'timeout' => 20,
-			])
-			->getHtml();
-
+		$datahtml = $this->gethtml($url);
 		/*获取书籍列表*/
 		$rules=array(
 			"id"=>array('a','href'),
@@ -276,15 +239,10 @@ class Xs2 extends Base
 		foreach($data as $i => $row){
 			$id2=substr($row['id'],0,strlen($row['id'])-3);
 			$url="https://www.777zw.net/{$id2}/".$row['id']."/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs/xs2book',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$datahtml = $this->gethtml($url);
 			sleep(7);
 		}
+		$datahtml = NULL;
     }
     public function xslog()
     {

@@ -8,13 +8,8 @@ class Xs extends Base
     public function index($id=0)
     {
 		$page = input('page') ? input('page') : 1;
-		$url="https://www.9txs.org/library/0_{$id}_0_{$page}.html";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs1book',
-			'cache_ttl' => 60*60*24,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$url="https://www.9taoxs.com/library/0_{$id}_0_{$page}.html";
+		$datahtml = $this->gethtml($url);
 
 		/*获取分类列表*/
 		$rules=array(
@@ -74,26 +69,16 @@ class Xs extends Base
 		
 		fastcgi_finish_request();
 		foreach($data as $i => $row){
-			$url="https://www.9txs.org/book/".$row['id']."/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs/xs1book',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$url="https://www.9taoxs.com/book/".$row['id']."/";
+			$datahtml = $this->gethtml($url);
 			sleep(7);
 		}
+		$datahtml = NULL;
     }
     public function book($id='')
     {
-		$url="https://www.9txs.org/book/{$id}/";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs1book',
-			'cache_ttl' => 60*60*12,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$url="https://www.9taoxs.com/book/{$id}/";
+		$datahtml = $this->gethtml($url);
 
 		/*书本信息*/
 		$rules=array(
@@ -132,29 +117,17 @@ class Xs extends Base
 			}
 		}
 		foreach($list as $i => $row){
-			$url="https://www.9txs.org/book/{$id}/{$row['id']}.html";
-			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs/xs1view',
-				'cache_ttl' => 60*60*10,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$url="https://www.9taoxs.com/book/{$id}/{$row['id']}.html";
+			$datahtml = $this->gethtml($url);
+			if ($i>10) {break;}
 			sleep(5);
-			if ($i>10) {
-				break;
-			}
 		}
+		$datahtml = NULL;
 	}
     public function view($id1='',$id2='')
     {
-		$url="https://www.9txs.org/book/{$id1}/{$id2}.html";
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'/xs/xs1view',
-			'cache_ttl' => 60*60*10,
-			'timeout' => 20,
-			])
-			->getHtml();
+		$url="https://www.9taoxs.com/book/{$id1}/{$id2}.html";
+		$datahtml = $this->gethtml($url);
 		/*获取书本章节信息*/
 		$rules=array(
 			"book"=>array('.light>#bookname','text'),
@@ -224,14 +197,8 @@ class Xs extends Base
 		}
 		
 		if ($down){
-			$url2="https://www.9txs.org/book/{$id1}/{$down}.html";
-			$datahtml2 = QueryList::get($url2,null,[
-				'cache' => HuanPath.'/xs/xs1view',
-				'cache_ttl' => 60*60*10,
-				'timeout' => 20,
-				])
-				->getHtml();
-		$datahtml2 = null ;
+			$url2="https://www.9taoxs.com/book/{$id1}/{$down}.html";
+			$datahtml = $this->gethtml($url);
 		}
     }
     public function search()
@@ -240,30 +207,19 @@ class Xs extends Base
 		$searchid=input('searchid');
 		$page = input('page')??1;
 		if ($searchid){
-			$url="https://so.9txs.org/www/{$searchid}/{$page}.html";
-			$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'/xs/xs1search',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
+			$url="https://www.9taoxs.com/search/{$searchid}/{$page}.html";
+			$datahtml = $this->gethtml($url);
 		}else{
-			$url="https://so.9txs.org/www/";
-			$datahtml = QueryList::post($url,[
-				'searchkey'=>$keyword
-				],[
-				'cache' => HuanPath.'/xs/xs1search',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
+			$url="https://www.9taoxs.com/search.html";
+			$datahtml = $this->gethtml($url,['searchkey'=>$keyword],'post');
 		}
 		$rules=array(
 			"img"=>array('.bookimg>img','src'),
 			"id"=>array('.bookname','href'),
 			"book"=>array('.bookname','text'),
-			"zuozhe"=>array('p:eq(0)','text'),
-			'jianjie'=>array('.intro','text')
+			"zuozhe"=>array('.author','text'),
+			'jianjie'=>array('.intro','html'),
+			'type'=>array('p:eq(0)>a:eq(1)','text'),
 		);
 		$range='.library>li';
 		$data = QueryList::html($datahtml)
@@ -282,7 +238,7 @@ class Xs extends Base
 			$pagecount=explode("/",$pagecount)[5];
 			$pagecount=explode(".",$pagecount)[0];
 			if ($pagecount<$page){$pagecount=$page;}
-			$p = Bootstrap::make($data, 30, $page, $pagecount*30, false, [
+			$p = Bootstrap::make($data, 50, $page, $pagecount*30, false, [
 				'var_page' => 'page',
 				'path'     => url('/Xs/search'),//这里根据需要修改url
 				'query'    => ['searchid'=>$searchid],
@@ -297,16 +253,11 @@ class Xs extends Base
 		
 		fastcgi_finish_request();
 		foreach($data as $i => $row){
-			$url="https://www.9txs.org/book/".$row['id']."/";
-			$datahtml = QueryList::get($url,null,[
-				'cache' =>  HuanPath.'/xs/xs1book',
-				'cache_ttl' => 60*60*12,
-				'timeout' => 20,
-				])
-				->getHtml();
-			$datahtml = NULL;
+			$url="https://www.9taoxs.com/book/".$row['id']."/";
+			$datahtml = $this->gethtml($url);
 			sleep(7);
 		}
+		$datahtml = NULL;
     }
     public function xslog()
     {

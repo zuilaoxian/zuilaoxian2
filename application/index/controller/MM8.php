@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-use  app\Common\controller\Base;
+use app\Common\controller\Base;
 use QL\QueryList;
 use think\paginator\driver\Bootstrap;
 class MM8 extends Base
@@ -31,11 +31,7 @@ class MM8 extends Base
 			"img"=>array('img','data-original')	
 		);
 		$range='.pic-sd-box>li>a';
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'mm8',
-			'cache_ttl' => 60*60*12
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 		$data = QueryList::html($datahtml)
 		->rules($rules)
 		->range($range)
@@ -75,11 +71,7 @@ class MM8 extends Base
 			"img"=>array('img','src')	
 		);
 		$range='.smallPic>ul>li>a';
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'mm8/view',
-			'cache_ttl' => 60*60*12
-			])
-			->getHtml();
+		$datahtml = $this->gethtml($url);
 
 		$data = QueryList::html($datahtml)
 		->rules($rules)

@@ -1,9 +1,6 @@
 <?php
 namespace app\index\controller;
 use app\Common\controller\Base;
-use \Curl\Curl;
-use QL\QueryList;
-use think\paginator\driver\Bootstrap;
 class HaHa extends Base
 {
     public function index()
