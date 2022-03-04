@@ -1,9 +1,8 @@
 <?php
 namespace app\index\controller;
 use \app\Common\controller\Base;
-use QL\Ext\AbsoluteUrl;
-use GuzzleHttp\Psr7\Response;
 use QL\QueryList;
+use GuzzleHttp\Psr7\Response;
 use think\paginator\driver\Bootstrap;
 class TuPianZj extends Base
 {
@@ -22,24 +21,11 @@ class TuPianZj extends Base
 		$this->redirect('/tupianzj/list/1',302);
 	}
     public function list($id=1){
-		$ql = QueryList::getInstance();
-		$ql->use(AbsoluteUrl::class);
-		
 		$page=input('page')??1;
 		$ids=$this->type()[$id-1]['id'];
 		$list=array_column($this->type(), 'list')[$id-1];
 		$url="https://www.tupianzj.com/meinv/{$list}/list_{$ids}_{$page}.html";
-		$datahtml = QueryList::get($url,null,[
-				'cache' => HuanPath.'tupianzj',
-				'cache_ttl' => 60*60*12
-				])
-				->removeHead()
-				->encoding('UTF-8','GB2312')
-				->gethtml();
-		//$datahtml=iconv('GB2312','utf-8//IGNORE',$datahtml);
-		$datahtml = $ql->html($datahtml)
-					->absoluteUrl('https://www.tupianzj.com/')
-					->gethtml();
+		$datahtml = $this->gethtml($url);
 		$rules=array(
 			"img"=>array('img','src'),
 			"id"=>array('','href'),
@@ -48,8 +34,15 @@ class TuPianZj extends Base
 		$range='.list_con>.list_con_box>.list_con_box_ul>li>a';
 		$data1 = QueryList::html($datahtml)
 			->rules($rules)
+			->removeHead()
+			->encoding('UTF-8','GB2312')
 			->range($range)
-			->queryData();
+			->queryData(function($x){
+				if (count(explode('http',$x['id']))<2){
+					$x['id']="https://www.tupianzj.com".$x['id'];
+				}
+				return $x;
+			});
 		$date100=cutstr($datahtml,'list_con_box\">','<div class=\"clearfix\">');
 		$data2=QueryList::html($datahtml)->find(".pageinfo>strong:eq(0)")->text();
 		$data=['type'=>$id,'name'=>array_column($this->type(), 'name')[$id-1]];
@@ -79,62 +72,61 @@ class TuPianZj extends Base
     public function view($id=''){
 		$this->islogin(12,'tupianzj');
 		$url=base64_decode($id);
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'tupianzj',
-			'cache_ttl' => 60*60*12
-			])
-		->removeHead()
-		->encoding('UTF-8','GB2312')
-		->getHtml();
+		$datahtml = $this->gethtml($url);
 		$rules=array(
-			"img"=>array('#bigpic img','src'),
-			"pages"=>array('.pages li:eq(0)','text'),
+			"img"=>array('#bigpic img,.intro img','src'),
+			"pages"=>array('.pages','text'),
 			"title"=>array('h1:last','text')
 		);
 		$range='';
 		$data = QueryList::html($datahtml)
 			->rules($rules)
 			->range($range)
+			->removeHead()
+			->encoding('UTF-8','GB2312')
 			->queryData();
 		$title=$data['title'];
 		$page=cutstr($data['pages'],'共','页');
 		global $img;
 		$img[]=$data['img'];
-		for ($i=2;$i<=$page;$i++){
-			$urls[]=str_replace('.html','_'.$i.'.html',$url);
-		}
-		$rules=array(
-			"img"=>array('#bigpic img','src')
-		);
-		$qldata=QueryList::rules($rules)
-			->range($range)
-			->multiGet($urls)
-			// 设置并发数为2
-			->concurrency(3)
-			// 设置GuzzleHttp的一些其他选项
-			->withOptions([
-				'timeout' => 60
-			])
-			// 设置HTTP Header
-			->withHeaders([
-			])
-			// HTTP success回调函数
-			->success(function (QueryList $ql, Response $response, $index){
-				global $img;
-				$img[]= $ql->queryData()['img'];
-			})
-			// HTTP error回调函数
-			->error(function (QueryList $ql, $reason, $index){
-				// ...
-			})
-			->send();
+		if ($page>1){
+			$urls=[];
+			for ($i=2;$i<=$page;$i++){
+				$urls[]=str_replace('.html','_'.$i.'.html',$url);
+			}
+			$rules=array(
+				"img"=>array('#bigpic img , .intro img','src')
+			);
+			QueryList::rules($rules)
+					->range($range)
+					->multiGet($urls)
+					// 设置并发数
+					->concurrency(3)
+					// 设置GuzzleHttp的一些其他选项
+					->withOptions([
+						'timeout' => 600
+					])
+					// 设置HTTP Header
+					->withHeaders([
+					])
+					// HTTP success回调函数
+					->success(function (QueryList $ql, Response $response, $index){
+						global $img;
+						$img[]= $ql->queryData()['img'];
+						var_dump($index);
+					})
+					// HTTP error回调函数
+					->error(function (QueryList $ql, $reason, $index){
+						// ...
+					})
+					->send();
 			
-
+		}
 			$html='
 			<li class="list-group-item">';		
 			foreach($img as $row){
 				if ($row){
-					if (stripos($row,"http://")!==0){$row="{$row}";}
+					if (count(explode('http',$row))<2){$row="https://www.tupianzj.com{$row}";}
 					$html.='
 				<img alt="" src="'.$row.'" style="width:100%;max-width:400px;">';
 				}
