@@ -78,7 +78,20 @@ class EnterDesk extends Base
 		$this->assign('view', $data);
 		$this->assign('list', $this->type());
 		$this->assign('articles', $data1);
-
+		
+		foreach($data1 as $row){
+			$datar=db('tupianzj')->where('url',$row['id'])->where('path','enterdesk')->find();
+			if (!$datar){
+				$datarr=[
+					'url'=>$row['id'],
+					'title'=>$row['title'],
+					'list'=>$id,
+					'path'=>'enterdesk',
+					'simg'=>$row['img'],
+				];
+				db('tupianzj')->insert($datarr);
+			}
+		}
 		
         $curpage = input('page') ? input('page') : 1;//当前第x页，有效值为：1,2,3,4,5...
         $listRow = 16;//每页2行记录
@@ -99,54 +112,60 @@ class EnterDesk extends Base
 	
 	
     public function view($id=''){
-		$curl=new Curl();
-		$curl->setFollowLocation(true);
-		$curl->setOpt(CURLOPT_SSL_VERIFYPEER,false);
-		$curl->setOpt(CURLOPT_SSL_VERIFYHOST,false);
-		$curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36');
-		$curl->setReferer('https://mm.enterdesk.com/');
-		$curl->get('https://mm.enterdesk.com/');
-		$cookie=$curl->getResponseCookies();
-		$curl->setCookie('token','');
-		$curl->setCookie('secret','');
-		$curl->setCookie('t',$cookie['token']);
-		$curl->setCookie('r',''.($cookie['secret']-100).'');
-		
-		
-		$url="https://mm.enterdesk.com/bizhi/{$id}.html";
-		$rules=array(
-			"img"=>array('a','src')	
-		);
-		$range='.swiper-wrapper>.swiper-slide';
-		$datahtml=$curl->get($url);
-		/*
-		$datahtml = QueryList::get($url,null,[
-			'cache' => HuanPath.'enterdesk',
-			'cache_ttl' => 60*60*12
-			])
-			->getHtml();
-		*/
-		
-		$data1 = QueryList::html($datahtml)
-		->rules($rules)
-		->range($range)
-		->queryData(
-			function($x){
-				$x['img']=str_replace('edpic','edpic_source',$x['img']);
-				return $x;
+		$sqldata=db('tupianzj')->where('url',$id)->where('path','enterdesk')->where('cai','1')->find();
+		if ($sqldata){
+			$title=$sqldata['title'];
+			$img=json_decode($sqldata['imgs']);
+			$list=$sqldata['list'];
+		}else{
+			$curl=new Curl();
+			$curl->setFollowLocation(true);
+			$curl->setOpt(CURLOPT_SSL_VERIFYPEER,false);
+			$curl->setOpt(CURLOPT_SSL_VERIFYHOST,false);
+			$curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36');
+			$curl->setReferer('https://mm.enterdesk.com/');
+			$curl->get('https://mm.enterdesk.com/');
+			$cookie=$curl->getResponseCookies();
+			$curl->setCookie('token','');
+			$curl->setCookie('secret','');
+			$curl->setCookie('t',$cookie['token']);
+			$curl->setCookie('r',''.($cookie['secret']-100).'');
+			
+			
+			$url="https://mm.enterdesk.com/bizhi/{$id}.html";
+			$rules=array(
+				"img"=>array('a','src'),
+			);
+			$range='.swiper-wrapper>.swiper-slide';
+			$datahtml=$curl->get($url);
+			$data1 = QueryList::html($datahtml)
+			->rules($rules)
+			->range($range)
+			->queryData(
+				function($x){
+					$x['img']=str_replace('edpic','edpic_source',$x['img']);
+					return $x;
+				}
+			);
+			$data2=QueryList::html($datahtml)->find(".arc_location>a:eq(1)")->href;
+			$list=$this->deep_get_key(explode('/',$data2)[3],$this->type());
+			$title=QueryList::html($datahtml)->find("img")->attr('alt');
+			$html='';
+			$img=[];
+			foreach($data1 as $index){
+				$img[]=$index["img"];
 			}
-		);
-
-		$data2=QueryList::html($datahtml)->find("img")->attr('alt');
-		$html='';
-		foreach($data1 as $index){
-			$html.="
-				<img src=\"{$index["img"]}\" style=\"width:100%;max-width:400px;\">
-				";
+			$datar=db('tupianzj')->where('url',$id)->where('path','enterdesk')->where('cai','0')->find();
+			if ($datar){
+				$datarr=[
+					'imgs'=>json_encode($img),
+					'cai'=>1
+				];
+				db('tupianzj')->where('url',$id)->where('path','enterdesk')->update($datarr);
+			}
 		}
-		$data=['title'=>$data2,'content'=>$html];
-		$this->assign('list', $this->type());
-		$this->assign('view', $data);
-		return $this->fetch('index/enterdesk_view');
+		$this->assign('lists', $img);
+		$this->assign('typelist', $this->type());
+		return $this->fetch('index/MM8_view',['list'=>$list,'title'=>$title,'path'=>'enterdesk']);
     }
 }

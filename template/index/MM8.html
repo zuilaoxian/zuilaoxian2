@@ -4,7 +4,7 @@
 	<div class="list list-group-item">
 		<ul class="breadcrumb">
 			{volist name='typelist' id='vo' empty="暂时没有数据"}
-				<li> <a href="/{$path}/{$i}">{if condition="($vo.list == $list)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
+				<li> <a href="/{$path}/list/{$i}">{if condition="($vo.list == $list)"}<font color=red>{$vo.name}</font>{else /}{$vo.name}{/if}</a></li>
 			{/volist}
 		</ul>
 	</div>

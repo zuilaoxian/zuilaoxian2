@@ -46,10 +46,27 @@ class MM8 extends Base
 				return $x;
 			}
 		);
+		
+		foreach($data as $row){
+			$datar=db('tupianzj')->where('url',$row['id'])->where('path','mm8')->find();
+			if (!$datar){
+				$datarr=[
+					'url'=>$row['id'],
+					'title'=>$row['title'],
+					'list'=>$list,
+					'path'=>'mm8',
+					'simg'=>$row['img'],
+				];
+				db('tupianzj')->insert($datarr);
+			}
+		}
+		
+		
+		
 		$pagecount = QueryList::html($datahtml)->find('.last>a')->attr('data-page');
 		$p = Bootstrap::make($data, 20, $page, 20*$pagecount, false, [
 			'var_page' => 'page',
-			'path'     => url('/MM8/'.$id),//这里根据需要修改url
+			'path'     => url('/MM8/list/'.$id),//这里根据需要修改url
 			'query'    => [],
 			'fragment' => '',
 		]);
@@ -63,28 +80,46 @@ class MM8 extends Base
 	}
     public function view($id='',$list1='',$list2='')
     {
-		$url="https://www.mm8mm8.com/{$list1}/{$list2}/{$id}.html";
-		if ($id==$list2){
-			$url="https://www.mm8mm8.com/{$list1}/{$list2}.html";
-		}
-		$rules=array(
-			"img"=>array('img','src')	
-		);
-		$range='.smallPic>ul>li>a';
-		$datahtml = $this->gethtml($url);
-
-		$data = QueryList::html($datahtml)
-		->rules($rules)
-		->range($range)
-		->queryData(
-			function($x){
-				$x['img']=str_replace('/thumb/108x108','',$x['img']);
-				return $x;
+		$sqldata=db('tupianzj')->where('url',$id)->where('path','mm8')->where('cai','1')->find();
+		if ($sqldata){
+			$title=$sqldata['title'];
+			$img=json_decode($sqldata['imgs']);
+		}else{
+			$url="https://www.mm8mm8.com/{$list1}/{$list2}/{$id}.html";
+			if ($id==$list2){
+				$url="https://www.mm8mm8.com/{$list1}/{$list2}.html";
 			}
-		);
-		$title=QueryList::html($datahtml)->find("h1")->text();
-		$this->assign('lists', $data);
+			$rules=array(
+				"img"=>array('img','src')	
+			);
+			$range='.smallPic>ul>li>a';
+			$datahtml = $this->gethtml($url);
+
+			$data = QueryList::html($datahtml)
+			->rules($rules)
+			->range($range)
+			->queryData(
+				function($x){
+					$x['img']=str_replace('/thumb/108x108','',$x['img']);
+					return $x;
+				}
+			);
+			$title=QueryList::html($datahtml)->find("h1")->text();
+			$img=array_reduce($data, function ($result, $value) {
+										return array_merge($result, array_values($value));
+										}, array());
+			$datar=db('tupianzj')->where('url',$id)->where('path','mm8')->where('cai','0')->find();
+			if ($datar){
+				$datarr=[
+					'imgs'=>json_encode($img),
+					'cai'=>1
+				];
+				db('tupianzj')->where('url',$id)->where('path','mm8')->update($datarr);
+			}
+		}
+		$list=$this->deep_get_key($list1,$this->type());
+		$this->assign('lists', $img);
 		$this->assign('typelist', $this->type());
-		return $this->fetch('index/MM8_view',['list'=>$list1,'title'=>$title,'path'=>'MM8']);
+		return $this->fetch('index/MM8_view',['list'=>$list,'title'=>$title,'path'=>'MM8']);
 	}
 }

@@ -50,4 +50,23 @@ class Base extends Controller
 			])
 			->getHtml();
 	}
+	protected function deep_get_key($serar,$arr){
+		$index = '';
+		foreach ($arr as $key => $value) {
+			foreach ($value as $key1 => $value) {
+				if($value==$serar){
+					$index = $key;
+					break;
+				}
+			}
+			if($index){
+				break;
+			}
+		}
+		if(empty($index)){
+			return false;
+		}else{
+			return $index;
+		}
+	}
 }
